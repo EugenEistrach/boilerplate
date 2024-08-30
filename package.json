@@ -13,6 +13,8 @@
     "db:seed": "node --loader ts-node/esm prisma/seed.ts"
   },
   "dependencies": {
+    "@clerk/nextjs": "^5.3.7",
+    "@clerk/themes": "^2.1.25",
     "@prisma/client": "5.19.0",
     "@radix-ui/react-slot": "^1.1.0",
     "babel-plugin-react-compiler": "0.0.0-experimental-e68eda9-20240829",
@@ -20,6 +22,7 @@
     "clsx": "^2.1.1",
     "lucide-react": "^0.436.0",
     "next": "15.0.0-canary.135",
+    "next-themes": "^0.3.0",
     "react": "19.0.0-rc-a19a8ab4-20240829",
     "react-dom": "19.0.0-rc-a19a8ab4-20240829",
     "server-only": "^0.0.1",
