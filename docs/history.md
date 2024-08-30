@@ -106,3 +106,24 @@ pnpm install ts-node --save-dev
 ```
 pnpm db:seed
 ```
+
+16. Enable react compiler
+
+```
+pnpm install babel-plugin-react-compiler
+```
+
+```
+const nextConfig = {
+  experimental: {
+    reactCompiler: true,
+  },
+};
+
+```
+
+17. Enable turbo in dev mode (package.json)
+
+```
+"dev": "next dev --turbo"
+```
