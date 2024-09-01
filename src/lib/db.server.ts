@@ -1,16 +1,17 @@
-import { PrismaClient } from "@prisma/client"
-import "server-only"
+import { PrismaClient } from "@prisma/client";
+import "server-only";
 
 const prismaClientSingleton = () => {
-  return new PrismaClient()
-}
+	return new PrismaClient();
+};
 
+// biome-ignore lint/suspicious/noShadowRestrictedNames: <explanation>
 declare const globalThis: {
-  prismaGlobal: ReturnType<typeof prismaClientSingleton>
-} & typeof global
+	prismaGlobal: ReturnType<typeof prismaClientSingleton>;
+} & typeof global;
 
-const db = globalThis.prismaGlobal ?? prismaClientSingleton()
+const db = globalThis.prismaGlobal ?? prismaClientSingleton();
 
-export default db
+export default db;
 
-if (process.env.NODE_ENV !== "production") globalThis.prismaGlobal = db
+if (process.env.NODE_ENV !== "production") globalThis.prismaGlobal = db;
