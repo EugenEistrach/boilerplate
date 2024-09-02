@@ -5,15 +5,15 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.string().min(1),
     NODE_ENV: z.string().optional(),
-    CLERK_SECRET_KEY: z.string().min(1),
-    SENTRY_AUTH_TOKEN: z.string().min(1),
-    SENTRY_PROJECT: z.string().min(1),
-    SENTRY_ORG: z.string().min(1)
+    CLERK_SECRET_KEY: z.string().min(1).optional(),
+    SENTRY_AUTH_TOKEN: z.string().min(1).optional(),
+    SENTRY_PROJECT: z.string().min(1).optional(),
+    SENTRY_ORG: z.string().min(1).optional()
   },
   client: {
-    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1),
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string().min(1).optional(),
     NEXT_PUBLIC_ROOT_PATH: z.string().optional().default("/workspace"),
-    NEXT_PUBLIC_SENTRY_DSN: z.string().min(1)
+    NEXT_PUBLIC_SENTRY_DSN: z.string().min(1).optional()
   },
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,

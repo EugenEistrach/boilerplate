@@ -1,11 +1,5 @@
-# Base image with pnpm installed
-FROM node:20-alpine AS base
-
-# Install pnpm globally
-RUN npm install -g pnpm
-
 # Stage 1: Build the application
-FROM base AS builder
+FROM node:20-alpine AS builder
 
 # Set working directory
 WORKDIR /app
@@ -14,16 +8,31 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies
-RUN pnpm install
+RUN npm install -g pnpm && pnpm install
 
 # Copy the rest of the application code
 COPY . .
 
+# Set environment variable for SQLite database temporarily
+ENV DATABASE_URL=database.sqlite
+
+# Create a temporary SQLite file
+RUN touch $DATABASE_URL
+
+# Run the db:reset command to set up the database
+RUN pnpm run db:reset
+
 # Build the application
 RUN pnpm run build
 
+# Clean up the SQLite files
+RUN pnpm run db:clear
+
+# Unset the environment variable
+ENV DATABASE_URL=
+
 # Stage 2: Serve the application
-FROM base AS runner
+FROM node:20-alpine AS runner
 
 # Set working directory
 WORKDIR /app
