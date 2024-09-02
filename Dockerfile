@@ -63,7 +63,10 @@ COPY --from=builder /app/run.sh ./run.sh
 # Install only production dependencies
 RUN pnpm install --prod
 
-RUN cd drizzle/migrate && npm i
+RUN cd drizzle/migrate && pnpm i
+RUN cd ..
+
+RUN chmod +x ./run.sh
 
 WORKDIR /app
 
