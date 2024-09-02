@@ -1,7 +1,14 @@
-#!/bin/bash -e
+#!/bin/sh -e
 
-pushd ./drizzle/migrate
+# Save the current directory
+current_dir=$(pwd)
+
+# Change to the migrate directory and run the migration
+cd ./drizzle/migrate
 pnpm db:migrate
-popd
 
+# Return to the original directory
+cd "$current_dir"
+
+# Start the application
 pnpm start
