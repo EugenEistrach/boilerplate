@@ -37,10 +37,5 @@ export const deleteExampleAction = actionClient
   )
   .action(async ({ parsedInput: { id } }) => {
     await deleteExample(id)
-
-    if (Math.random() < 0.5) {
-      throw new Error("Random error occurred during deletion")
-    }
-
     revalidatePath("/workspace/example")
   })
