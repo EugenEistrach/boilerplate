@@ -1,5 +1,11 @@
+# Base image with pnpm installed
+FROM node:20-alpine AS base
+
+# Install pnpm globally
+RUN npm install -g pnpm
+
 # Stage 1: Build the application
-FROM node:20-alpine AS builder
+FROM base AS builder
 
 # Set working directory
 WORKDIR /app
@@ -8,13 +14,20 @@ WORKDIR /app
 COPY package.json pnpm-lock.yaml ./
 
 # Install dependencies
-RUN npm install -g pnpm && pnpm install
+RUN pnpm install
 
 # Copy the rest of the application code
 COPY . .
 
+
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
 # Set environment variable for SQLite database temporarily
-ENV DATABASE_URL=database.sqlite
+ARG DATABASE_URL=database.sqlite
+ARG NEXT_PUBLIC_SENTRY_DSN
+ARG SENTRY_AUTH_TOKEN
+ARG SENTRY_ORG
+ARG SENTRY_PROJECT
 
 # Create a temporary SQLite file
 RUN touch $DATABASE_URL
@@ -28,14 +41,14 @@ RUN pnpm run build
 # Clean up the SQLite files
 RUN pnpm run db:clear
 
-# Unset the environment variable
-ENV DATABASE_URL=
-
 # Stage 2: Serve the application
-FROM node:20-alpine AS runner
+FROM base AS runner
 
 # Set working directory
 WORKDIR /app
+
+ENV NEXT_TELEMETRY_DISABLED=1
+ENV NODE_ENV=production
 
 # Copy the built application from the builder stage
 COPY --from=builder /app/.next ./.next
