@@ -21,6 +21,7 @@ COPY . .
 
 
 ENV NEXT_TELEMETRY_DISABLED=1
+ENV NEXT_RUNTIME=nodejs
 ENV NODE_ENV=production
 # Set environment variable for SQLite database temporarily
 ARG DATABASE_URL=database.sqlite
@@ -49,6 +50,7 @@ WORKDIR /app
 
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NODE_ENV=production
+ENV NEXT_RUNTIME=nodejs
 
 # Copy the built application from the builder stage
 COPY --from=builder /app/.next ./.next
