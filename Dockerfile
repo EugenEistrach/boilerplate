@@ -74,4 +74,6 @@ WORKDIR /app
 EXPOSE 3000
 
 # Start the application
-CMD ./run.sh
+RUN ls -la /app
+RUN ls -al 
+CMD ["./run.sh"]

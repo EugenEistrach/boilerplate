@@ -47,4 +47,4 @@ jobs:
       - name: Trigger Coolify Deployment
         if: success() && env.COOLIFY_WEBHOOK_URL != '' && env.COOLIFY_API_KEY != ''
         run: |
-          curl -X GET ${{ env.COOLIFY_WEBHOOK_URL }} --header "Authorization: Bearer ${{ env.COOLIFY_API_KEY }}"
+          curl -X GET '${{ env.COOLIFY_WEBHOOK_URL }}' --header 'Authorization: Bearer ${{ env.COOLIFY_API_KEY }}'
