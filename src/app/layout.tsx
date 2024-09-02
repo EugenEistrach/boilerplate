@@ -1,7 +1,5 @@
 import "./globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
-import { ClerkProvider } from "@clerk/nextjs"
-import { dark } from "@clerk/themes"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
@@ -19,17 +17,11 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
-      <ClerkProvider
-        appearance={{
-          baseTheme: dark
-        }}
-      >
-        <body className={inter.className}>
-          <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-            {children}
-          </ThemeProvider>
-        </body>
-      </ClerkProvider>
+      <body className={inter.className}>
+        <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
+          {children}
+        </ThemeProvider>
+      </body>
     </html>
   )
 }

@@ -1,26 +1,23 @@
-import { clerkMiddleware, createRouteMatcher } from "@clerk/nextjs/server"
+import { auth } from "@/lib/auth"
+
 import { NextResponse } from "next/server"
-import { env } from "./lib/env"
 
-const isProtectedRoute = createRouteMatcher([
-  `${env.NEXT_PUBLIC_ROOT_PATH}(.*)`
-])
-const isOnboardingRoute = createRouteMatcher(["/onboarding(.*)"])
+const isProtectedRoute = (path: string) => {
+  return path.startsWith("/workspace")
+}
 
-export default clerkMiddleware(async (auth, req) => {
-  const { userId, redirectToSignIn } = auth()
+export default auth(req => {
+  if (isProtectedRoute(req.nextUrl.pathname)) {
+    if (req.auth?.user) {
+      return NextResponse.next()
+    }
 
-  if (userId && isOnboardingRoute(req)) {
-    return NextResponse.next()
+    const redirectTo = req.nextUrl.pathname?.trim() ?? undefined
+    return NextResponse.redirect(
+      new URL(`/sign-in?${new URLSearchParams({ redirectTo })}`, req.url)
+    )
   }
-
-  if (!userId && isProtectedRoute(req)) {
-    return redirectToSignIn({ returnBackUrl: "/login" })
-  }
-
-  if (userId && isProtectedRoute(req)) {
-    return NextResponse.next()
-  }
+  return NextResponse.next()
 })
 
 export const config = {

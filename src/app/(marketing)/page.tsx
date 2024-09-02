@@ -8,13 +8,13 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
-import { env } from "@/lib/env"
-import { auth } from "@clerk/nextjs/server"
+import { auth } from "@/lib/auth"
 import { CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 
-export default function Component() {
-  const { userId } = auth()
+export default async function Component() {
+  const session = await auth()
+  const userId = session?.user?.email
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -59,7 +59,7 @@ export default function Component() {
           </a>
           <ThemeToggle />
           <Button asChild>
-            <Link href={userId ? env.NEXT_PUBLIC_ROOT_PATH : "/sign-up"}>
+            <Link href={userId ? "/workspace" : "/sign-in"}>
               {userId ? "Go to App" : "Get Started"}
             </Link>
           </Button>
@@ -80,7 +80,7 @@ export default function Component() {
               </div>
               <div className="space-x-4">
                 <Button asChild>
-                  <Link href={userId ? env.NEXT_PUBLIC_ROOT_PATH : "/sign-up"}>
+                  <Link href={userId ? "/workspace" : "/sign-in"}>
                     {userId ? "Go to App" : "Get Started"}
                   </Link>
                 </Button>
