@@ -1,12 +1,10 @@
-import { db } from "@/db/db"
-import { users } from "@/db/schema"
+import Link from "next/link"
 
 export default async function AppPage() {
-  const user = await db.select().from(users)
   return (
     <div>
-      App
-      <pre>{JSON.stringify(user, null, 2)}</pre>
+      <h1>Workspace</h1>
+      <Link href="/workspace/example">Example</Link>
     </div>
   )
 }
