@@ -38,3 +38,8 @@ jobs:
             SENTRY_AUTH_TOKEN=${{ secrets.SENTRY_AUTH_TOKEN }}
             SENTRY_ORG=${{ secrets.SENTRY_ORG }}
             SENTRY_PROJECT=${{ secrets.SENTRY_PROJECT }}
+      - name: Trigger Coolify Deployment
+        if: success() && env.COOLIFY_WEBHOOK_URL != '' && env.COOLIFY_API_KEY != ''
+        run: |
+          curl -X POST ${{ secrets.COOLIFY_WEBHOOK_URL }} \
+            -H "Authorization: Bearer ${{ secrets.COOLIFY_API_KEY }}" 

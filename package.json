@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "next dev --turbo",
     "build": "next build",
-    "start": "prisma migrate deploy && next start",
+    "start": "pnpm db:migrate && next start",
     "lint": "next lint",
     "db:push": "drizzle-kit push --config=drizzle.config.ts",
     "db:migrate": "tsx ./src/db/migrate.ts",
