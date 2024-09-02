@@ -1,15 +1,20 @@
-import { env } from "@/lib/env"
+import "dotenv/config"
 import Database from "better-sqlite3"
 import { drizzle } from "drizzle-orm/better-sqlite3"
 
 import { migrate } from "drizzle-orm/better-sqlite3/migrator"
-import * as schema from "./schema"
 
-export const sqlite = new Database(env.DATABASE_URL)
+const url = process.env.DATABASE_URL
+
+if (!url) {
+  throw new Error("DATABASE_URL is not set")
+}
+
+export const sqlite = new Database(url)
 
 // Enable Write-Ahead Logging (WAL) mode to allow concurrent reads and writes
 sqlite.pragma("journal_mode = WAL")
 
-export const db = drizzle(sqlite, {
-  schema: schema
-})
+const db = drizzle(sqlite)
+
+migrate(db, { migrationsFolder: ".." })

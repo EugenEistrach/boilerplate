@@ -3,4 +3,4 @@ import "dotenv/config"
 import { migrate } from "drizzle-orm/better-sqlite3/migrator"
 import { db } from "./db"
 
-migrate(db, { migrationsFolder: "src/db/migrations" })
+migrate(db, { migrationsFolder: "drizzle" })
