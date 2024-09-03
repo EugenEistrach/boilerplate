@@ -23,6 +23,7 @@ COPY . .
 ENV NEXT_TELEMETRY_DISABLED=1
 ENV NEXT_RUNTIME=nodejs
 ENV NODE_ENV=production
+ENV AUTH_SECRET=needed_to_fail_during_migrations
 # Set environment variable for SQLite database temporarily
 ARG DATABASE_URL=database.sqlite
 ARG NEXT_PUBLIC_SENTRY_DSN

@@ -51,7 +51,7 @@ export default function SignUpPage({
               Sign in with GitHub
             </Button>
           </form>
-          <div className="relative">
+          {/* <div className="relative">
             <div className="absolute inset-0 flex items-center">
               <span className="w-full border-t border-border" />
             </div>
@@ -62,7 +62,7 @@ export default function SignUpPage({
             </div>
           </div>
           <form>
-            {/* TODO: Implement email sign-in server action */}
+           
             <div className="space-y-2">
               <Label htmlFor="email">Email</Label>
               <Input
@@ -76,7 +76,7 @@ export default function SignUpPage({
             <Button className="w-full mt-4" type="submit">
               Send Magic Link
             </Button>
-          </form>
+          </form> */}
         </CardContent>
       </Card>
     </div>

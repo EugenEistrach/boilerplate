@@ -1,3 +1,5 @@
+"use client"
+
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -16,9 +18,11 @@ export const UserButtonSkeleton = () => {
 }
 
 export const UserButton = ({
-  userPromise
+  userPromise,
+  signOut
 }: {
   userPromise: Promise<User | null>
+  signOut: () => void
 }) => {
   const user = use(userPromise)
 
@@ -55,11 +59,16 @@ export const UserButton = ({
             <p className="text-sm text-muted-foreground">{email}</p>
           </div>
         </div>
-        <DropdownMenuItem className="p-3 focus:bg-accent hover:bg-accent">
+        {/* <DropdownMenuItem className="p-3 focus:bg-accent hover:bg-accent">
           <Settings className="mr-3 h-5 w-5" />
           <span className="text-sm">Manage account</span>
-        </DropdownMenuItem>
-        <DropdownMenuItem className="p-3 focus:bg-accent hover:bg-accent">
+        </DropdownMenuItem> */}
+        <DropdownMenuItem
+          onClick={() => {
+            signOut()
+          }}
+          className="p-3 focus:bg-accent hover:bg-accent"
+        >
           <LogOut className="mr-3 h-5 w-5" />
           <span className="text-sm">Sign out</span>
         </DropdownMenuItem>

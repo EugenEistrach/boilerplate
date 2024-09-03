@@ -5,15 +5,15 @@ export const env = createEnv({
   server: {
     DATABASE_URL: z.string().min(1),
     NODE_ENV: z.string().optional(),
-    SENTRY_AUTH_TOKEN: z.string().min(1).optional(),
-    SENTRY_PROJECT: z.string().min(1).optional(),
-    SENTRY_ORG: z.string().min(1).optional(),
+    SENTRY_AUTH_TOKEN: z.string().optional(),
+    SENTRY_PROJECT: z.string().optional(),
+    SENTRY_ORG: z.string().optional(),
     AUTH_SECRET: z.string().min(1),
-    AUTH_GITHUB_ID: z.string().min(1),
-    AUTH_GITHUB_SECRET: z.string().min(1)
+    AUTH_GITHUB_ID: z.string().optional(),
+    AUTH_GITHUB_SECRET: z.string().optional()
   },
   client: {
-    NEXT_PUBLIC_SENTRY_DSN: z.string().min(1).optional()
+    NEXT_PUBLIC_SENTRY_DSN: z.string().optional()
   },
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
