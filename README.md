@@ -21,7 +21,12 @@
    pnpm install
    ```
 
-5. Start the development server:
+5. Initialize the database:
+   ```bash
+   pnpm run db:reset
+   ```
+
+6. Start the development server:
    ```bash
    pnpm run dev
    ```
