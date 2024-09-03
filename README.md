@@ -1,22 +1,28 @@
+# Boilerplate 
 
+## Development 
+1. Clone the repository:
+   ```bash
+   pnpm dlx degit https://github.com/EugenEistrach/perfux-boilerplate
+   cd perfux-boilerplate
+   ```
 
-``` 
-pnpm dlx degit https://github.com/EugenEistrach/perfux-boilerplate
-```
+2. Set up environment variables and generate a secret key:
+   ```bash
+   cp .env.example .env && sed -i 's/^AUTH_SECRET=.*/AUTH_SECRET='$(openssl rand -base64 33)'/' .env
+   ```
 
-```
-cd perfux-boilerplate
-```
+3. Create a GitHub app and update the following variables in `.env`:
+   - `AUTH_GITHUB_ID`: Your GitHub App's Client ID
+   - `AUTH_GITHUB_SECRET`: Your GitHub App's Client Secret
 
-```
-cp .env.example .env
-```
+4. Install dependencies:
+   ```bash
+   pnpm install
+   ```
 
+5. Start the development server:
+   ```bash
+   pnpm run dev
+   ```
 
-```
-pnpm install
-```
-
-```
-pnpm run dev
-```

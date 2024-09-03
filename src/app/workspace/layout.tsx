@@ -11,7 +11,7 @@ export default function Header() {
       <Suspense fallback={<UserButtonSkeleton />}>
         <UserButton
           userPromise={userPromise}
-          signOut={async () => {
+          signOutAction={async () => {
             "use server"
             await signOut()
           }}

@@ -19,10 +19,10 @@ export const UserButtonSkeleton = () => {
 
 export const UserButton = ({
   userPromise,
-  signOut
+  signOutAction
 }: {
   userPromise: Promise<User | null>
-  signOut: () => void
+  signOutAction: () => void
 }) => {
   const user = use(userPromise)
 
@@ -65,7 +65,7 @@ export const UserButton = ({
         </DropdownMenuItem> */}
         <DropdownMenuItem
           onClick={() => {
-            signOut()
+            signOutAction()
           }}
           className="p-3 focus:bg-accent hover:bg-accent"
         >
