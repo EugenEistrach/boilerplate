@@ -57,6 +57,7 @@ ENV NEXT_RUNTIME=nodejs
 COPY --from=builder /app/.next ./.next
 COPY --from=builder /app/public ./public
 COPY --from=builder /app/package.json ./
+COPY --from=builder /app/server.ts ./
 COPY --from=builder /app/drizzle ./drizzle
 COPY --from=builder /app/pnpm-lock.yaml ./
 COPY --from=builder /app/run.sh ./run.sh

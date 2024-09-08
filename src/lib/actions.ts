@@ -1,32 +1,37 @@
 import * as Sentry from "@sentry/nextjs"
-import { createSafeActionClient } from "next-safe-action"
+import {
+  DEFAULT_SERVER_ERROR_MESSAGE,
+  createSafeActionClient
+} from "next-safe-action"
+import { env } from "./env"
 
 export const actionClient = createSafeActionClient({
-  handleServerErrorLog: (error, utils) => {
+  handleServerError: (error, utils) => {
     const { clientInput, bindArgsClientInputs, metadata, ctx } = utils
-    // Create a new scope for this error
-    Sentry.withScope(scope => {
-      // Set context data
-      // @ts-ignore
-      scope.setContext("clientInput", Object.fromEntries(clientInput))
 
-      scope.setContext(
-        "bindArgsClientInputs",
+    env.NEXT_PUBLIC_SENTRY_DSN &&
+      Sentry.withScope(scope => {
+        // Set context data
         // @ts-ignore
-        Object.fromEntries(bindArgsClientInputs)
-      )
-      // @ts-ignore
-      scope.setContext("metadata", metadata)
-      // @ts-ignore
-      scope.setContext("ctx", ctx)
+        scope.setContext("clientInput", Object.fromEntries(clientInput))
 
-      // Add extra data if needed
-      scope.setExtra("errorLocation", "serverAction")
+        scope.setContext(
+          "bindArgsClientInputs",
+          // @ts-ignore
+          Object.fromEntries(bindArgsClientInputs)
+        )
+        // @ts-ignore
+        scope.setContext("metadata", metadata)
+        // @ts-ignore
+        scope.setContext("ctx", ctx)
 
-      // Capture the exception with the new scope
-      Sentry.captureException(error)
-    })
+        // Add extra data if needed
+        scope.setExtra("errorLocation", "serverAction")
 
-    console.error("Server Error", error)
+        // Capture the exception with the new scope
+        Sentry.captureException(error)
+      })
+
+    return DEFAULT_SERVER_ERROR_MESSAGE
   }
 })
