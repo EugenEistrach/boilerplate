@@ -11,6 +11,12 @@ importers:
       '@hono/node-server':
         specifier: ^1.12.2
         version: 1.12.2(hono@4.5.11)
+      '@hookform/resolvers':
+        specifier: ^3.9.0
+        version: 3.9.0(react-hook-form@7.53.0(react@19.0.0-rc-a03254bc-20240905))
+      '@next-safe-action/adapter-react-hook-form':
+        specifier: ^1.0.13
+        version: 1.0.13(@hookform/resolvers@3.9.0(react-hook-form@7.53.0(react@19.0.0-rc-a03254bc-20240905)))(next-safe-action@7.9.1(next@15.0.0-canary.144(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@0.0.0-experimental-7449567-20240905)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(zod@3.23.8))(next@15.0.0-canary.144(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@0.0.0-experimental-7449567-20240905)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react-hook-form@7.53.0(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
       '@paralleldrive/cuid2':
         specifier: ^2.2.2
         version: 2.2.2
@@ -80,6 +86,9 @@ importers:
       react-dom:
         specifier: 19.0.0-rc-a03254bc-20240905
         version: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
+      react-hook-form:
+        specifier: ^7.53.0
+        version: 7.53.0(react@19.0.0-rc-a03254bc-20240905)
       server-only:
         specifier: ^0.0.1
         version: 0.0.1
@@ -732,6 +741,11 @@ packages:
     peerDependencies:
       hono: ^4
 
+  '@hookform/resolvers@3.9.0':
+    resolution: {integrity: sha512-bU0Gr4EepJ/EQsH/IwEzYLsT/PEj5C0ynLQ4m+GSHS+xKH4TfSelhluTgOaoc4kA5s7eCsQbM4wvZLzELmWzUg==}
+    peerDependencies:
+      react-hook-form: ^7.0.0
+
   '@img/sharp-darwin-arm64@0.33.5':
     resolution: {integrity: sha512-UT4p+iz/2H4twwAoLCqfA9UH5pI6DggwKEGuaPy7nCVQ8ZsiY5PIcrRvD1DzuY3qYL07NtIQcWnBSY/heikIFQ==}
     engines: {node: ^18.17.0 || ^20.3.0 || >=21.0.0}
@@ -868,6 +882,16 @@ packages:
 
   '@jridgewell/trace-mapping@0.3.9':
     resolution: {integrity: sha512-3Belt6tdc8bPgAtbcmdtNJlirVoTmEb5e2gC94PnkwEW9jI6CAHUeoG85tjWP5WquqfavoMtMwiG4P926ZKKuQ==}
+
+  '@next-safe-action/adapter-react-hook-form@1.0.13':
+    resolution: {integrity: sha512-J1zfdiVWcs6w388fKwdm0V/2UojU3KkqSQb4dx428HMujuF23UKaZ7v+R10I+AQrkR3yH7RIMIhYOdNwZN33DA==}
+    peerDependencies:
+      '@hookform/resolvers': '>= 3.0.0'
+      next: '>= 14.0.0'
+      next-safe-action: '>= 7.6.0'
+      react: '>= 18.2.0'
+      react-dom: '>= 18.2.0'
+      react-hook-form: '>= 7.0.0'
 
   '@next/env@15.0.0-canary.144':
     resolution: {integrity: sha512-QJh+TQ0xwLpPA+hHWcjje/XUDejqOQNUwaefdN1/sxaufTIPbcoPn19mP4wu410AWjFK2aIAufCDbcrqYpxx3g==}
@@ -2890,6 +2914,12 @@ packages:
     peerDependencies:
       react: 19.0.0-rc-a03254bc-20240905
 
+  react-hook-form@7.53.0:
+    resolution: {integrity: sha512-M1n3HhqCww6S2hxLxciEXy2oISPnAzxY7gvwVPrtlczTM/1dDadXgUxDpHMrMTblDOcm/AXtXxHwZ3jpg1mqKQ==}
+    engines: {node: '>=18.0.0'}
+    peerDependencies:
+      react: ^16.8.0 || ^17 || ^18 || ^19
+
   react-is@16.13.1:
     resolution: {integrity: sha512-24e6ynE2H+OKt4kqsOvNd8kBpV65zoxbA4BVsEOB3ARVWQki/DHzaUoC5KuON/BiccDaCCTZBuOcfZs70kR8bQ==}
 
@@ -3796,6 +3826,10 @@ snapshots:
     dependencies:
       hono: 4.5.11
 
+  '@hookform/resolvers@3.9.0(react-hook-form@7.53.0(react@19.0.0-rc-a03254bc-20240905))':
+    dependencies:
+      react-hook-form: 7.53.0(react@19.0.0-rc-a03254bc-20240905)
+
   '@img/sharp-darwin-arm64@0.33.5':
     optionalDependencies:
       '@img/sharp-libvips-darwin-arm64': 1.0.4
@@ -3913,6 +3947,15 @@ snapshots:
       '@jridgewell/resolve-uri': 3.1.2
       '@jridgewell/sourcemap-codec': 1.5.0
     optional: true
+
+  '@next-safe-action/adapter-react-hook-form@1.0.13(@hookform/resolvers@3.9.0(react-hook-form@7.53.0(react@19.0.0-rc-a03254bc-20240905)))(next-safe-action@7.9.1(next@15.0.0-canary.144(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@0.0.0-experimental-7449567-20240905)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(zod@3.23.8))(next@15.0.0-canary.144(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@0.0.0-experimental-7449567-20240905)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react-hook-form@7.53.0(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)':
+    dependencies:
+      '@hookform/resolvers': 3.9.0(react-hook-form@7.53.0(react@19.0.0-rc-a03254bc-20240905))
+      next: 15.0.0-canary.144(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@0.0.0-experimental-7449567-20240905)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)
+      next-safe-action: 7.9.1(next@15.0.0-canary.144(@babel/core@7.25.2)(@opentelemetry/api@1.9.0)(babel-plugin-react-compiler@0.0.0-experimental-7449567-20240905)(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905))(react-dom@19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905))(react@19.0.0-rc-a03254bc-20240905)(zod@3.23.8)
+      react: 19.0.0-rc-a03254bc-20240905
+      react-dom: 19.0.0-rc-a03254bc-20240905(react@19.0.0-rc-a03254bc-20240905)
+      react-hook-form: 7.53.0(react@19.0.0-rc-a03254bc-20240905)
 
   '@next/env@15.0.0-canary.144': {}
 
@@ -5966,6 +6009,10 @@ snapshots:
     dependencies:
       react: 19.0.0-rc-a03254bc-20240905
       scheduler: 0.25.0-rc-a03254bc-20240905
+
+  react-hook-form@7.53.0(react@19.0.0-rc-a03254bc-20240905):
+    dependencies:
+      react: 19.0.0-rc-a03254bc-20240905
 
   react-is@16.13.1: {}
 

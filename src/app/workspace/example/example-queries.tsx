@@ -1,7 +1,7 @@
 import "server-only"
 import { db } from "@/db/db"
 import { eq } from "drizzle-orm"
-import { Examples } from "./schema"
+import { Examples } from "./example-schemas"
 
 export const getExamples = async () => {
   const examples = await db.select().from(Examples)

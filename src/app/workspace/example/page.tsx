@@ -1,5 +1,5 @@
-import ExamplePageClient from "./ExamplePageClient"
-import { getExamples } from "./server/queries"
+import { getExamples } from "./example-queries"
+import ExamplePageClient from "./ui/example-form"
 
 export default async function ExamplePage() {
   const initialExamples = await getExamples()
