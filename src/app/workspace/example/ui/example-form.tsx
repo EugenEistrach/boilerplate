@@ -12,8 +12,15 @@ import {
   FormMessage
 } from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
+import {
+  Tooltip,
+  TooltipContent,
+  TooltipProvider,
+  TooltipTrigger
+} from "@/components/ui/tooltip"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks"
+import { PencilIcon, SaveIcon, TrashIcon, XIcon } from "lucide-react"
 import {
   createExampleAction,
   deleteExampleAction,
@@ -87,58 +94,72 @@ export default function ExamplePageClient({
 
       <div className="space-y-4">
         {initialExamples.map(example => (
-          <Card key={example.id}>
-            <CardContent className="flex items-center justify-between p-4">
-              <UpdateExampleForm example={example} />
-              <DeleteExampleForm exampleId={example.id} />
-            </CardContent>
-          </Card>
+          <ExampleCard key={example.id} example={example} />
         ))}
       </div>
     </div>
   )
 }
 
+function ExampleCard({ example }: { example: Example }) {
+  return (
+    <Card className="group relative">
+      <CardContent className="p-4">
+        <UpdateExampleForm example={example} />
+      </CardContent>
+      <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity">
+        <DeleteExampleForm exampleId={example.id} />
+      </div>
+    </Card>
+  )
+}
+
 function UpdateExampleForm({ example }: { example: Example }) {
-  const {
-    form: updateForm,
-    handleSubmitWithAction: handleUpdateSubmit,
-    resetFormAndAction: resetUpdateForm
-  } = useHookFormAction(updateExampleAction, zodResolver(updateExampleSchema), {
-    formProps: {
-      defaultValues: {
-        name: example.note
+  const { form: updateForm, handleSubmitWithAction: handleUpdateSubmit } =
+    useHookFormAction(updateExampleAction, zodResolver(updateExampleSchema), {
+      formProps: {
+        defaultValues: {
+          name: example.note
+        }
       }
-    }
-  })
+    })
 
   return (
-    <Form {...updateForm}>
-      <form onSubmit={handleUpdateSubmit} className="flex-grow mr-2">
-        <FormField
-          control={updateForm.control}
-          name="name"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Note</FormLabel>
-              <FormControl>
-                <Input {...field} />
-              </FormControl>
-              <FormDescription>Enter a new note.</FormDescription>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <input
-          type="hidden"
-          {...updateForm.register("id")}
-          value={example.id}
-        />
-        <Button type="submit" variant="outline" className="ml-2">
-          Update
-        </Button>
-      </form>
-    </Form>
+    <TooltipProvider>
+      <Form {...updateForm}>
+        <form onSubmit={handleUpdateSubmit} className="space-y-2">
+          <FormField
+            control={updateForm.control}
+            name="name"
+            render={({ field }) => (
+              <FormItem>
+                <FormLabel>Note</FormLabel>
+                <div className="flex items-center space-x-2">
+                  <FormControl>
+                    <Input {...field} className="w-full" />
+                  </FormControl>
+                  <Tooltip>
+                    <TooltipTrigger asChild>
+                      <Button type="submit" size="icon" variant="ghost">
+                        <SaveIcon className="h-4 w-4" />
+                      </Button>
+                    </TooltipTrigger>
+                    <TooltipContent>
+                      <p>Save changes</p>
+                    </TooltipContent>
+                  </Tooltip>
+                </div>
+              </FormItem>
+            )}
+          />
+          <input
+            type="hidden"
+            {...updateForm.register("id")}
+            value={example.id}
+          />
+        </form>
+      </Form>
+    </TooltipProvider>
   )
 }
 
@@ -147,13 +168,31 @@ function DeleteExampleForm({ exampleId }: { exampleId: string }) {
     useHookFormAction(deleteExampleAction, zodResolver(deleteExampleSchema))
 
   return (
-    <Form {...deleteForm}>
-      <form onSubmit={handleDeleteSubmit}>
-        <input type="hidden" {...deleteForm.register("id")} value={exampleId} />
-        <Button variant="destructive" type="submit">
-          Delete
-        </Button>
-      </form>
-    </Form>
+    <TooltipProvider>
+      <Form {...deleteForm}>
+        <form onSubmit={handleDeleteSubmit}>
+          <input
+            type="hidden"
+            {...deleteForm.register("id")}
+            value={exampleId}
+          />
+          <Tooltip>
+            <TooltipTrigger asChild>
+              <Button
+                variant="ghost"
+                size="sm"
+                type="submit"
+                className=" w-6 h-6 p-0"
+              >
+                <XIcon className="h-4 w-4" />
+              </Button>
+            </TooltipTrigger>
+            <TooltipContent>
+              <p>Delete</p>
+            </TooltipContent>
+          </Tooltip>
+        </form>
+      </Form>
+    </TooltipProvider>
   )
 }

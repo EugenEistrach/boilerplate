@@ -10,8 +10,8 @@ Code Style and Structure
 
 Naming Conventions
 
-- Use lowercase with dashes for directories (e.g., components/auth-wizard).
-- Favor named exports for components.
+- Use lowercase with dashes for directories and files (e.g., components/auth-wizard, components/ui/editable-field.tsx).
+- Favor named exports for components, hooks, and functions.
 
 TypeScript Usage
 
