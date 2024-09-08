@@ -5,7 +5,8 @@ services:
     image: ghcr.io/${REPO_NAME}/${IMAGE_NAME}:latest
     restart: unless-stopped
     environment:
-      HOST: "${HOST}"
+      HOSTNAME: "${HOSTNAME}"
+      AUTH_URL: ${HOSTNAME}
       DATABASE_URL: "/app/database/database.sqlite"
       SENTRY_AUTH_TOKEN: "${SENTRY_AUTH_TOKEN}"
       NEXT_PUBLIC_SENTRY_DSN: "${NEXT_PUBLIC_SENTRY_DSN}"
@@ -15,9 +16,15 @@ services:
       AUTH_GITHUB_ID: "${AUTH_GITHUB_ID}"
       AUTH_GITHUB_SECRET: "${AUTH_GITHUB_SECRET}"
       AUTH_TRUST_HOST: "true"
-
+    healthcheck:
+      test: ["CMD", "wget", "-q", "--spider", "http://localhost:3000"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
     volumes:
       - sqlite-data:/app/database
 
 volumes:
   sqlite-data:
+
+

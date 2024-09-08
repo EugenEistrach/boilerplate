@@ -31,3 +31,8 @@
    pnpm run dev
    ```
 
+
+
+## Further Reading
+
+- Deployment docs [here](./docs/DEPLOYMENT.md).
