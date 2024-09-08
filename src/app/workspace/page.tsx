@@ -4,7 +4,7 @@ export default async function AppPage() {
   return (
     <div>
       <h1>Workspace</h1>
-      <Link href="/workspace/example">Example</Link>
+      <Link href="/workspace/notes">Notes</Link>
     </div>
   )
 }

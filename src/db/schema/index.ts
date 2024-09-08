@@ -1,2 +1,2 @@
 export * from "./user"
-export * from "@/app/workspace/example/example-tables"
+export * from "@/app/workspace/notes/note-tables"

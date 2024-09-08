@@ -32,6 +32,8 @@ export const actionClient = createSafeActionClient({
         Sentry.captureException(error)
       })
 
+    console.error(error)
+
     return DEFAULT_SERVER_ERROR_MESSAGE
   }
 })

@@ -20,38 +20,38 @@ import {
 } from "@/components/ui/tooltip"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks"
-import { PencilIcon, SaveIcon, TrashIcon, XIcon } from "lucide-react"
+import { SaveIcon, XIcon } from "lucide-react"
 import {
-  createExampleAction,
-  deleteExampleAction,
-  updateExampleAction
-} from "../example-actions"
+  createNoteAction,
+  deleteNoteAction,
+  updateNoteAction
+} from "../note-actions"
 import {
-  createExampleSchema,
-  deleteExampleSchema,
-  updateExampleSchema
-} from "../example-validations"
+  createNoteSchema,
+  deleteNoteSchema,
+  updateNoteSchema
+} from "../note-validations"
 
-interface Example {
+interface Note {
   id: string
-  note: string
+  content: string
+  createdAt: Date
+  modifiedAt: Date
 }
 
-interface ExamplePageClientProps {
-  initialExamples: Example[]
+interface NotesProps {
+  initialNotes: Note[]
 }
 
-export default function ExamplePageClient({
-  initialExamples
-}: ExamplePageClientProps) {
+export default function Notes({ initialNotes }: NotesProps) {
   const {
     form: createForm,
     handleSubmitWithAction: handleCreateSubmit,
     resetFormAndAction: resetCreateForm
-  } = useHookFormAction(createExampleAction, zodResolver(createExampleSchema), {
+  } = useHookFormAction(createNoteAction, zodResolver(createNoteSchema), {
     formProps: {
       defaultValues: {
-        name: ""
+        content: ""
       }
     },
     actionProps: {
@@ -63,18 +63,18 @@ export default function ExamplePageClient({
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Examples</h1>
+      <h1 className="text-2xl font-bold mb-4">Notes</h1>
 
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Add New Example</CardTitle>
+          <CardTitle>Add New Note</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...createForm}>
             <form onSubmit={handleCreateSubmit} className="space-y-8">
               <FormField
                 control={createForm.control}
-                name="name"
+                name="content"
                 render={({ field }) => (
                   <FormItem>
                     <FormLabel>Note</FormLabel>
@@ -86,40 +86,40 @@ export default function ExamplePageClient({
                   </FormItem>
                 )}
               />
-              <Button type="submit">Create Example</Button>
+              <Button type="submit">Create Note</Button>
             </form>
           </Form>
         </CardContent>
       </Card>
 
       <div className="space-y-4">
-        {initialExamples.map(example => (
-          <ExampleCard key={example.id} example={example} />
+        {initialNotes.map(note => (
+          <NoteCard key={note.id} note={note} />
         ))}
       </div>
     </div>
   )
 }
 
-function ExampleCard({ example }: { example: Example }) {
+function NoteCard({ note }: { note: Note }) {
   return (
     <Card className="group relative">
       <CardContent className="p-4">
-        <UpdateExampleForm example={example} />
+        <UpdateNoteForm note={note} />
       </CardContent>
       <div className="absolute -top-2 -right-2 opacity-0 group-hover:opacity-100 transition-opacity">
-        <DeleteExampleForm exampleId={example.id} />
+        <DeleteNoteForm noteId={note.id} />
       </div>
     </Card>
   )
 }
 
-function UpdateExampleForm({ example }: { example: Example }) {
+function UpdateNoteForm({ note }: { note: Note }) {
   const { form: updateForm, handleSubmitWithAction: handleUpdateSubmit } =
-    useHookFormAction(updateExampleAction, zodResolver(updateExampleSchema), {
+    useHookFormAction(updateNoteAction, zodResolver(updateNoteSchema), {
       formProps: {
         defaultValues: {
-          name: example.note
+          content: note.content
         }
       }
     })
@@ -130,10 +130,14 @@ function UpdateExampleForm({ example }: { example: Example }) {
         <form onSubmit={handleUpdateSubmit} className="space-y-2">
           <FormField
             control={updateForm.control}
-            name="name"
+            name="content"
             render={({ field }) => (
               <FormItem>
-                <FormLabel>Note</FormLabel>
+                <FormLabel>
+                  <div className="text-sm text-gray-500 mt-2">
+                    <p>{new Date(note.modifiedAt).toLocaleString()}</p>
+                  </div>
+                </FormLabel>
                 <div className="flex items-center space-x-2">
                   <FormControl>
                     <Input {...field} className="w-full" />
@@ -152,37 +156,29 @@ function UpdateExampleForm({ example }: { example: Example }) {
               </FormItem>
             )}
           />
-          <input
-            type="hidden"
-            {...updateForm.register("id")}
-            value={example.id}
-          />
+          <input type="hidden" {...updateForm.register("id")} value={note.id} />
         </form>
       </Form>
     </TooltipProvider>
   )
 }
 
-function DeleteExampleForm({ exampleId }: { exampleId: string }) {
+function DeleteNoteForm({ noteId }: { noteId: string }) {
   const { form: deleteForm, handleSubmitWithAction: handleDeleteSubmit } =
-    useHookFormAction(deleteExampleAction, zodResolver(deleteExampleSchema))
+    useHookFormAction(deleteNoteAction, zodResolver(deleteNoteSchema))
 
   return (
     <TooltipProvider>
       <Form {...deleteForm}>
         <form onSubmit={handleDeleteSubmit}>
-          <input
-            type="hidden"
-            {...deleteForm.register("id")}
-            value={exampleId}
-          />
+          <input type="hidden" {...deleteForm.register("id")} value={noteId} />
           <Tooltip>
             <TooltipTrigger asChild>
               <Button
                 variant="ghost"
                 size="sm"
                 type="submit"
-                className=" w-6 h-6 p-0"
+                className="w-6 h-6 p-0"
               >
                 <XIcon className="h-4 w-4" />
               </Button>
