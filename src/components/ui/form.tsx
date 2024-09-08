@@ -1,19 +1,19 @@
 "use client"
-
-import * as React from "react"
-import * as LabelPrimitive from "@radix-ui/react-label"
+import type * as LabelPrimitive from "@radix-ui/react-label"
 import { Slot } from "@radix-ui/react-slot"
+import * as React from "react"
 import {
   Controller,
-  ControllerProps,
-  FieldPath,
-  FieldValues,
+  type ControllerProps,
+  type FieldPath,
+  type FieldValues,
   FormProvider,
-  useFormContext,
+  useFormContext
 } from "react-hook-form"
+import { z } from "zod"
 
-import { cn } from "@/lib/utils"
 import { Label } from "@/components/ui/label"
+import { cn } from "@/lib/utils"
 
 const Form = FormProvider
 
@@ -60,7 +60,7 @@ const useFormField = () => {
     formItemId: `${id}-form-item`,
     formDescriptionId: `${id}-form-item-description`,
     formMessageId: `${id}-form-item-message`,
-    ...fieldState,
+    ...fieldState
   }
 }
 
@@ -166,6 +166,21 @@ const FormMessage = React.forwardRef<
 })
 FormMessage.displayName = "FormMessage"
 
+type DefaultValues<T> = {
+  [K in keyof T]: T[K] extends z.ZodString ? string : T[K]
+}
+
+function getDefaultValues<T extends z.ZodObject<z.ZodRawShape, "strip">>(
+  schema: T
+): DefaultValues<z.infer<T>> {
+  return Object.fromEntries(
+    Object.entries(schema.shape).map(([key, value]) => [
+      key,
+      value instanceof z.ZodString ? "" : undefined
+    ])
+  ) as DefaultValues<z.infer<T>>
+}
+
 export {
   useFormField,
   Form,
@@ -175,4 +190,5 @@ export {
   FormDescription,
   FormMessage,
   FormField,
+  getDefaultValues
 }

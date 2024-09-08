@@ -2,8 +2,16 @@
 
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import {
+  Form,
+  FormControl,
+  FormDescription,
+  FormField,
+  FormItem,
+  FormLabel,
+  FormMessage
+} from "@/components/ui/form"
 import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks"
 import {
@@ -33,18 +41,18 @@ export default function ExamplePageClient({
     form: createForm,
     handleSubmitWithAction: handleCreateSubmit,
     resetFormAndAction: resetCreateForm
-  } = useHookFormAction(createExampleAction, zodResolver(createExampleSchema))
-
-  const {
-    form: updateForm,
-    handleSubmitWithAction: handleUpdateSubmit,
-    resetFormAndAction: resetUpdateForm
-  } = useHookFormAction(updateExampleAction, zodResolver(updateExampleSchema))
-
-  const { action: deleteAction } = useHookFormAction(
-    deleteExampleAction,
-    zodResolver(deleteExampleSchema)
-  )
+  } = useHookFormAction(createExampleAction, zodResolver(createExampleSchema), {
+    formProps: {
+      defaultValues: {
+        name: ""
+      }
+    },
+    actionProps: {
+      onSuccess: () => {
+        resetCreateForm()
+      }
+    }
+  })
 
   return (
     <div className="container mx-auto p-4">
@@ -55,22 +63,25 @@ export default function ExamplePageClient({
           <CardTitle>Add New Example</CardTitle>
         </CardHeader>
         <CardContent>
-          <form onSubmit={handleCreateSubmit} className="space-y-4">
-            <div>
-              <Label htmlFor="new-example">Example Name</Label>
-              <Input
-                id="new-example"
-                {...createForm.register("name")}
-                placeholder="Enter new example name"
+          <Form {...createForm}>
+            <form onSubmit={handleCreateSubmit} className="space-y-8">
+              <FormField
+                control={createForm.control}
+                name="name"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Note</FormLabel>
+                    <FormControl>
+                      <Input placeholder="Type your note here" {...field} />
+                    </FormControl>
+                    <FormDescription>Enter a new note.</FormDescription>
+                    <FormMessage />
+                  </FormItem>
+                )}
               />
-              {createForm.formState.errors.name && (
-                <p className="text-red-500">
-                  {createForm.formState.errors.name.message}
-                </p>
-              )}
-            </div>
-            <Button type="submit">Add Example</Button>
-          </form>
+              <Button type="submit">Create Example</Button>
+            </form>
+          </Form>
         </CardContent>
       </Card>
 
@@ -78,39 +89,71 @@ export default function ExamplePageClient({
         {initialExamples.map(example => (
           <Card key={example.id}>
             <CardContent className="flex items-center justify-between p-4">
-              <form onSubmit={handleUpdateSubmit} className="flex-grow mr-2">
-                <Input
-                  {...updateForm.register("name")}
-                  defaultValue={example.note}
-                />
-                <input
-                  type="hidden"
-                  {...updateForm.register("id")}
-                  value={example.id}
-                />
-                {updateForm.formState.errors.name && (
-                  <p className="text-red-500">
-                    {updateForm.formState.errors.name.message}
-                  </p>
-                )}
-                <Button type="submit" variant="outline" className="ml-2">
-                  Update
-                </Button>
-              </form>
-              <form
-                onSubmit={e => {
-                  e.preventDefault()
-                  deleteAction.execute({ id: example.id })
-                }}
-              >
-                <Button variant="destructive" type="submit">
-                  Delete
-                </Button>
-              </form>
+              <UpdateExampleForm example={example} />
+              <DeleteExampleForm exampleId={example.id} />
             </CardContent>
           </Card>
         ))}
       </div>
     </div>
+  )
+}
+
+function UpdateExampleForm({ example }: { example: Example }) {
+  const {
+    form: updateForm,
+    handleSubmitWithAction: handleUpdateSubmit,
+    resetFormAndAction: resetUpdateForm
+  } = useHookFormAction(updateExampleAction, zodResolver(updateExampleSchema), {
+    formProps: {
+      defaultValues: {
+        name: example.note
+      }
+    }
+  })
+
+  return (
+    <Form {...updateForm}>
+      <form onSubmit={handleUpdateSubmit} className="flex-grow mr-2">
+        <FormField
+          control={updateForm.control}
+          name="name"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Note</FormLabel>
+              <FormControl>
+                <Input {...field} />
+              </FormControl>
+              <FormDescription>Enter a new note.</FormDescription>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
+        <input
+          type="hidden"
+          {...updateForm.register("id")}
+          value={example.id}
+        />
+        <Button type="submit" variant="outline" className="ml-2">
+          Update
+        </Button>
+      </form>
+    </Form>
+  )
+}
+
+function DeleteExampleForm({ exampleId }: { exampleId: string }) {
+  const { form: deleteForm, handleSubmitWithAction: handleDeleteSubmit } =
+    useHookFormAction(deleteExampleAction, zodResolver(deleteExampleSchema))
+
+  return (
+    <Form {...deleteForm}>
+      <form onSubmit={handleDeleteSubmit}>
+        <input type="hidden" {...deleteForm.register("id")} value={exampleId} />
+        <Button variant="destructive" type="submit">
+          Delete
+        </Button>
+      </form>
+    </Form>
   )
 }
