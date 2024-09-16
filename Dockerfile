@@ -62,6 +62,10 @@ COPY --from=builder /app/drizzle ./drizzle
 COPY --from=builder /app/pnpm-lock.yaml ./
 COPY --from=builder /app/run.sh ./run.sh
 
+# TODO: Solve this
+COPY --from=builder /app/src ./src
+COPY --from=builder /app/tsconfig.json ./tsconfig.json
+
 # Install only production dependencies
 RUN pnpm install --prod
 

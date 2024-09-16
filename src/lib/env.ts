@@ -10,7 +10,8 @@ export const env = createEnv({
     SENTRY_ORG: z.string().optional(),
     AUTH_SECRET: z.string().min(1),
     AUTH_GITHUB_ID: z.string().optional(),
-    AUTH_GITHUB_SECRET: z.string().optional()
+    AUTH_GITHUB_SECRET: z.string().optional(),
+    AUTH_URL: z.string()
   },
   client: {
     NEXT_PUBLIC_SENTRY_DSN: z.string().optional()
@@ -24,6 +25,7 @@ export const env = createEnv({
     SENTRY_AUTH_TOKEN: process.env.SENTRY_AUTH_TOKEN,
     AUTH_SECRET: process.env.AUTH_SECRET,
     AUTH_GITHUB_ID: process.env.AUTH_GITHUB_ID,
-    AUTH_GITHUB_SECRET: process.env.AUTH_GITHUB_SECRET
+    AUTH_GITHUB_SECRET: process.env.AUTH_GITHUB_SECRET,
+    AUTH_URL: process.env.AUTH_URL
   }
 })

@@ -1,5 +1,4 @@
 import { cuid } from "@/lib/utils"
-import { sql } from "drizzle-orm"
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
 export const Notes = sqliteTable("note", {
