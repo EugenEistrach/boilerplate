@@ -17,7 +17,6 @@
     "db:reset": "npm run db:clear && npm run db:migrate && npm run db:seed"
   },
   "dependencies": {
-    "@hono/node-server": "^1.12.2",
     "@hookform/resolvers": "^3.9.0",
     "@next-safe-action/adapter-react-hook-form": "^1.0.13",
     "@paralleldrive/cuid2": "^2.2.2",
@@ -26,36 +25,35 @@
     "@radix-ui/react-label": "^2.1.0",
     "@radix-ui/react-slot": "^1.1.0",
     "@radix-ui/react-tooltip": "^1.1.2",
-    "@sentry/nextjs": "^8.28.0",
+    "@sentry/nextjs": "^8.30.0",
     "@t3-oss/env-nextjs": "^0.11.1",
-    "babel-plugin-react-compiler": "0.0.0-experimental-7449567-20240905",
-    "better-sqlite3": "^11.2.1",
+    "babel-plugin-react-compiler": "0.0.0-experimental-de2cfda-20240912",
+    "better-sqlite3": "^11.3.0",
     "class-variance-authority": "^0.7.0",
     "clsx": "^2.1.1",
     "dotenv": "^16.4.5",
     "drizzle-orm": "^0.33.0",
-    "express": "^4.19.2",
-    "hono": "^4.5.11",
-    "lucide-react": "^0.439.0",
-    "next": "15.0.0-canary.144",
+    "express": "^4.21.0",
+    "lucide-react": "^0.441.0",
+    "next": "15.0.0-canary.156",
     "next-auth": "5.0.0-beta.20",
-    "next-safe-action": "^7.9.1",
+    "next-safe-action": "^7.9.3",
     "next-themes": "^0.3.0",
     "node-cron": "^3.0.3",
     "nuqs": "^1.19.1",
-    "react": "19.0.0-rc-a03254bc-20240905",
-    "react-dom": "19.0.0-rc-a03254bc-20240905",
+    "react": "19.0.0-rc-206df66e-20240912",
+    "react-dom": "19.0.0-rc-206df66e-20240912",
     "react-hook-form": "^7.53.0",
     "server-only": "^0.0.1",
     "tailwind-merge": "^2.5.2",
     "tailwindcss-animate": "^1.0.7",
-    "tsx": "^4.16.2",
-    "typescript": "5.5.4",
+    "tsx": "^4.19.1",
+    "typescript": "5.6.2",
     "zod": "^3.23.8",
     "zod-form-data": "^2.0.2"
   },
   "devDependencies": {
-    "@biomejs/biome": "1.8.3",
+    "@biomejs/biome": "1.9.1",
     "@types/better-sqlite3": "^7.6.11",
     "@types/express": "^4.17.21",
     "@types/node": "^22",
@@ -64,13 +62,13 @@
     "@types/react-dom": "npm:types-react-dom@rc",
     "drizzle-kit": "^0.24.2",
     "postcss": "^8",
-    "tailwindcss": "^3.4.10"
+    "tailwindcss": "^3.4.11"
   },
   "overrides": {
     "@types/react": "npm:types-react@rc",
     "@types/react-dom": "npm:types-react-dom@rc"
   },
-  "packageManager": "pnpm@9.9.0",
+  "packageManager": "pnpm@9.10.0",
   "engines": {
     "node": "20.x"
   }
