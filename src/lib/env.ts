@@ -11,7 +11,7 @@ export const env = createEnv({
     AUTH_SECRET: z.string().min(1),
     AUTH_GITHUB_ID: z.string().optional(),
     AUTH_GITHUB_SECRET: z.string().optional(),
-    AUTH_URL: z.string()
+    AUTH_URL: z.string().default("http://localhost:3000")
   },
   client: {
     NEXT_PUBLIC_SENTRY_DSN: z.string().optional()
