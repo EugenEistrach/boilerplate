@@ -1,5 +1,7 @@
 "use client"
 
+"use no memo"
+
 import { Button } from "@/components/ui/button"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import {
@@ -18,6 +20,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from "@/components/ui/tooltip"
+import { cn } from "@/lib/utils"
 import { useI18n } from "@/locales/client"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks"
@@ -148,8 +151,16 @@ function UpdateNoteForm({ note }: { note: Note }) {
                 </FormLabel>
                 <div className="flex items-center space-x-2">
                   <FormControl>
-                    <Input {...field} className="w-full" />
+                    <Input
+                      {...field}
+                      className={cn(
+                        "w-full",
+                        updateForm.formState.errors.content &&
+                          "border-destructive focus-visible:ring-destructive "
+                      )}
+                    />
                   </FormControl>
+
                   <Tooltip>
                     <TooltipTrigger asChild>
                       <Button type="submit" size="icon" variant="ghost">
