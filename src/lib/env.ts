@@ -13,7 +13,9 @@ export const env = createEnv({
     AUTH_GITHUB_SECRET: z.string().optional(),
     AUTH_DISCORD_ID: z.string().optional(),
     AUTH_DISCORD_SECRET: z.string().optional(),
-    AUTH_URL: z.string().default("http://localhost:3000")
+    AUTH_URL: z.string().default("http://localhost:3000"),
+    RESEND_API_KEY: z.string().optional(),
+    EMAIL_FROM: z.string().optional()
   },
   client: {
     NEXT_PUBLIC_SENTRY_DSN: z.string().optional()
@@ -30,6 +32,8 @@ export const env = createEnv({
     AUTH_GITHUB_SECRET: process.env.AUTH_GITHUB_SECRET,
     AUTH_DISCORD_ID: process.env.AUTH_DISCORD_ID,
     AUTH_DISCORD_SECRET: process.env.AUTH_DISCORD_SECRET,
-    AUTH_URL: process.env.AUTH_URL
+    AUTH_URL: process.env.AUTH_URL,
+    RESEND_API_KEY: process.env.RESEND_API_KEY,
+    EMAIL_FROM: process.env.EMAIL_FROM
   }
 })

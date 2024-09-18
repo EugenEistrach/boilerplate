@@ -1,5 +1,7 @@
 import { auth } from "@/lib/auth"
+import { sendEmail } from "@/lib/email"
 import { redirect } from "next/navigation"
+import WelcomeEmail from "../../../emails/welcome"
 import { createUser, getUserByEmail } from "../workspace/user/user-queries"
 
 export default async function OnboardingPage() {
@@ -24,6 +26,12 @@ export default async function OnboardingPage() {
     session?.user?.name ?? undefined,
     session?.user?.image ?? undefined
   )
+
+  await sendEmail({
+    to: email,
+    subject: "Welcome to Perfux Boilerplate",
+    react: <WelcomeEmail username={email} />
+  })
 
   return redirect("/workspace")
 }
