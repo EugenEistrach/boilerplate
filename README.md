@@ -4,7 +4,7 @@ A modern, feature-rich SaaS boilerplate built with Next.js 15, TypeScript, and m
 
 ## Key Features
 
-- **Next.js 14 with App Router**: Utilizing the latest Next.js features for optimal performance and developer experience.
+- **Next.js 15 with App Router**: Utilizing the latest Next.js features for optimal performance and developer experience.
 
 - **TypeScript**: Full TypeScript support for enhanced code quality and developer productivity.
 
@@ -60,10 +60,6 @@ A modern, feature-rich SaaS boilerplate built with Next.js 15, TypeScript, and m
   - Server-side and client-side translation support
   - Language switcher component included
   - Supports Zod schema translations for form validations
-
-### Zod Schema Translation Example
-
-The boilerplate demonstrates how to use translations with Zod schemas for form validations. Here's an example from the Notes feature:
 
 ## Project Structure
 
