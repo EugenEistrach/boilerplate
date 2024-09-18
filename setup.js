@@ -6,14 +6,10 @@ import path from "node:path"
 async function setup() {
   try {
     // Read the existing package.json
-    const packageJson = JSON.parse(await fs.readFile("package.json", "utf8"))
-
-    // Customize the package.json
-    packageJson.name = path.basename(process.cwd())
+    const packageJson = JSON.parse(fs.readFileSync("package.json", "utf8"))
+    packageJson.name = projectName
     packageJson.version = "0.1.0"
-
-    // Write the updated package.json
-    await fs.writeFile("package.json", JSON.stringify(packageJson, null, 2))
+    fs.writeFileSync("package.json", JSON.stringify(packageJson, null, 2))
 
     // Initialize git repository
     execSync("git init")
@@ -48,6 +44,14 @@ async function setup() {
     console.log("- AUTH_GITHUB_SECRET: Your GitHub App's Client Secret")
     console.log("- AUTH_DISCORD_ID: Your Discord App's Client ID")
     console.log("- AUTH_DISCORD_SECRET: Your Discord App's Client Secret")
+
+    console.log(`Project ${projectName} has been set up successfully!`)
+    console.log(
+      "Remember to set up your OAuth apps and update AUTH_GITHUB_ID, AUTH_GITHUB_SECRET, AUTH_DISCORD_ID, and AUTH_DISCORD_SECRET in .env"
+    )
+
+    // Clean up
+    fs.unlinkSync("setup.js")
   } catch (error) {
     console.error("An error occurred during setup:", error)
   }

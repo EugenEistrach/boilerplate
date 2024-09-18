@@ -86,8 +86,7 @@ Example features include:
 
 1. Clone the repository:
    ```bash
-   pnpm dlx degit https://github.com/EugenEistrach/perfux-boilerplate
-   cd perfux-boilerplate
+   PROJECT_NAME=my-new-project && pnpm dlx degit https://github.com/EugenEistrach/perfux-boilerplate $PROJECT_NAME && cd $PROJECT_NAME && node setup.js $PROJECT_NAME
    ```
 
 2. Set up environment variables and generate a secret key:
