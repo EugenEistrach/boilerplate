@@ -1,17 +1,12 @@
 # Deployment Guide
 
-## Step 1: Initialize Git and Create GitHub Repository
+## Step 1: Create GitHub Repository
 
-1. **Initialize Git in your project directory:**
-   ```sh
-   git init
-   ```
-
-2. **Create and push to a new GitHub repository:**
+1. **Create and push to a new GitHub repository:**
    ```sh
    gh repo create
    ```
-
+   - Follow the interactive prompts to set up and push your repository.
 
 ## Step 2: Set Up OAuth Apps
 
@@ -36,10 +31,10 @@
    - Add all variables from your `.env` file
    - Include OAuth credentials:
      ```
-     GITHUB_CLIENT_ID=<your-github-client-id>
-     GITHUB_CLIENT_SECRET=<your-github-client-secret>
-     DISCORD_CLIENT_ID=<your-discord-client-id>
-     DISCORD_CLIENT_SECRET=<your-discord-client-secret>
+     AUTH_GITHUB_ID=<your-github-client-id>
+     AUTH_GITHUB_SECRET=<your-github-client-secret>
+     AUTH_DISCORD_ID=<your-discord-client-id>
+     AUTH_DISCORD_SECRET=<your-discord-client-secret>
      ```
 
 3. **Set Up Webhook:**
@@ -79,4 +74,4 @@
 
 ## Summary
 
-This guide walks you through initializing your Git repository, setting up OAuth apps, configuring Coolify, setting up GitHub secrets, and testing the automated deployment process. Ensure all environment variables and secrets are correctly set for a successful deployment.
+This guide walks you through creating a GitHub repository, setting up OAuth apps, configuring Coolify, setting up GitHub secrets, and testing the automated deployment process. Ensure all environment variables and secrets are correctly set for a successful deployment.

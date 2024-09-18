@@ -84,37 +84,38 @@ Example features include:
 
 ## Development
 
-1. Clone the repository:
+1. Clone and set up the repository:
+
+   For bash/zsh:
    ```bash
-   PROJECT_NAME=my-new-project && pnpm dlx degit https://github.com/EugenEistrach/perfux-boilerplate $PROJECT_NAME && cd $PROJECT_NAME && node setup.js $PROJECT_NAME
+   PROJECT_NAME=my-new-project && pnpm dlx degit EugenEistrach/perfux-boilerplate $PROJECT_NAME && cd $PROJECT_NAME && node setup.js
    ```
 
-2. Set up environment variables and generate a secret key:
-   ```bash
-   cp .env.example .env && sed -i 's/^AUTH_SECRET=.*/AUTH_SECRET='$(openssl rand -base64 33)'/' .env
+   For fish shell:
+   ```fish
+   set PROJECT_NAME my-new-project && pnpm dlx degit EugenEistrach/perfux-boilerplate $PROJECT_NAME && cd $PROJECT_NAME && node setup.js
    ```
 
-3. Create a GitHub OAuth app at https://github.com/settings/developers and update the following variables in `.env`:
-   - `AUTH_GITHUB_ID`: Your GitHub App's Client ID
-   - `AUTH_GITHUB_SECRET`: Your GitHub App's Client Secret
-   - `AUTH_DISCORD_ID`: Your Discord App's Client ID
-   - `AUTH_DISCORD_SECRET`: Your Discord App's Client Secret
-
-4. Install dependencies:
-   ```bash
-   pnpm install
+   To save as a fish function:
+   ```fish
+   function create-perfux-project; pnpm dlx degit EugenEistrach/perfux-boilerplate $argv[1] && cd $argv[1] && node setup.js $argv[1]; end; funcsave create-perfux-project
    ```
+   Then use it as: `create-perfux-project my-new-project`
 
-5. Initialize the database:
-   ```bash
-   pnpm run db:reset
-   ```
+2. Set up OAuth apps:
+   - Create a GitHub OAuth app at https://github.com/settings/developers
+   - Create a Discord OAuth app at https://discord.com/developers/applications
+   - Update the following variables in `.env`:
+     - `AUTH_GITHUB_ID`: Your GitHub App's Client ID
+     - `AUTH_GITHUB_SECRET`: Your GitHub App's Client Secret
+     - `AUTH_DISCORD_ID`: Your Discord App's Client ID
+     - `AUTH_DISCORD_SECRET`: Your Discord App's Client Secret
 
-6. Start the development server:
+3. Start the development server:
    ```bash
    pnpm run dev
    ```
 
 ## Deployment
 
-- Deployment docs [here](./docs/DEPLOYMENT.md).
+See [Deployment Guide](./docs/deployment.md) for detailed instructions.
