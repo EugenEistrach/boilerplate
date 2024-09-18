@@ -49,21 +49,41 @@ A modern, feature-rich SaaS boilerplate built with Next.js 15, TypeScript, and m
     - Call-to-action sections
   - Seamless integration with the main application
 
+- **Email Integration**:
+  - React Email for creating beautiful, responsive emails
+  - Resend for reliable email delivery
+  - Easy-to-customize email templates
+
+- **Internationalization (i18n)**:
+  - Built-in support for multiple languages
+  - Easy-to-use translation system with next-international
+  - Server-side and client-side translation support
+  - Language switcher component included
+  - Supports Zod schema translations for form validations
+
+### Zod Schema Translation Example
+
+The boilerplate demonstrates how to use translations with Zod schemas for form validations. Here's an example from the Notes feature:
+
 ## Project Structure
 
-- `/src/app`: Main application code (Next.js App Router)
-  - `/(marketing)`: Public marketing pages
+- `/src/app/[locale]`: Main application code (Next.js App Router)
+  - `/auth`: Authentication pages
+  - `/marketing`: Public marketing pages
   - `/workspace`: Protected app area
   - `/onboarding`: User onboarding process
+- `/src/app/api`: API routes
 - `/src/components`: Reusable UI components
 - `/src/db`: Database configuration and schema
 - `/src/lib`: Utility functions and configurations
+- `/src/locales`: Translation files for different languages
+- `/emails`: Email templates using React Email
 
 ## Feature Organization
 
 Each feature in the boilerplate is typically organized as follows:
 
-- `/src/app/workspace/[feature-name]/`: Main directory for the feature
+- `/src/app/[locale]/workspace/[feature-name]/`: Main directory for the feature
   - `ui/`: Subdirectory for feature-specific UI components
   - `page.tsx`: Main page component for the feature
   - `*-tables.ts`: Database schema definitions
@@ -76,11 +96,11 @@ Each feature in the boilerplate is typically organized as follows:
 This structure promotes modularity and makes it easy to add, modify, or remove features while maintaining a clear separation of concerns.
 
 Main features include:
-- User management: `/src/app/workspace/user/`
-- Cron jobs: `/src/app/workspace/cronjobs/`
+- User management: `/src/app/[locale]/workspace/user/`
+- Cron jobs: `/src/app/[locale]/workspace/cronjobs/`
 
 Example features include:
-- Notes: `/src/app/workspace/notes/`
+- Notes: `/src/app/[locale]/workspace/notes/`
 
 ## Development
 

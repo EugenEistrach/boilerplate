@@ -1,9 +1,14 @@
 import {
+  UserButton,
+  UserButtonSkeleton
+} from "@/app/[locale]/workspace/user/ui/user-button"
+import { LocaleSwitcher } from "@/components/locale-switcher"
+import { ThemeToggle } from "@/components/theme-toggle"
+import {
   Tooltip,
   TooltipContent,
   TooltipTrigger
 } from "@/components/ui/tooltip"
-import { UserButton, UserButtonSkeleton } from "@/components/user-button"
 import { signOut } from "@/lib/auth"
 import { Zap } from "lucide-react"
 import Link from "next/link"
@@ -36,13 +41,16 @@ export default async function WorkspaceLayout({
                 </TooltipContent>
               </Tooltip>
             </div>
-
-            <UserButton
-              signOutAction={async () => {
-                "use server"
-                await signOut()
-              }}
-            />
+            <div className="flex items-center gap-2">
+              <LocaleSwitcher />
+              <ThemeToggle />
+              <UserButton
+                signOutAction={async () => {
+                  "use server"
+                  await signOut()
+                }}
+              />
+            </div>
           </div>
         </header>
         <main className="flex-1">{children}</main>

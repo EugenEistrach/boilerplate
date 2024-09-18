@@ -18,6 +18,7 @@ import {
   TooltipProvider,
   TooltipTrigger
 } from "@/components/ui/tooltip"
+import { useI18n } from "@/locales/client"
 import { zodResolver } from "@hookform/resolvers/zod"
 import { useHookFormAction } from "@next-safe-action/adapter-react-hook-form/hooks"
 import { SaveIcon, XIcon } from "lucide-react"
@@ -27,9 +28,9 @@ import {
   updateNoteAction
 } from "../note-actions"
 import {
-  createNoteSchema,
-  deleteNoteSchema,
-  updateNoteSchema
+  CreateNoteSchema,
+  DeleteNoteSchema,
+  UpdateNoteSchema
 } from "../note-validations"
 
 interface Note {
@@ -44,11 +45,13 @@ interface NotesProps {
 }
 
 export default function Notes({ initialNotes }: NotesProps) {
+  const t = useI18n()
+
   const {
     form: createForm,
     handleSubmitWithAction: handleCreateSubmit,
     resetFormAndAction: resetCreateForm
-  } = useHookFormAction(createNoteAction, zodResolver(createNoteSchema), {
+  } = useHookFormAction(createNoteAction, zodResolver(CreateNoteSchema(t)), {
     formProps: {
       defaultValues: {
         content: ""
@@ -63,11 +66,10 @@ export default function Notes({ initialNotes }: NotesProps) {
 
   return (
     <div className="container mx-auto p-4">
-      <h1 className="text-2xl font-bold mb-4">Notes</h1>
-
+      <h1 className="text-2xl font-bold mb-4">{t("notes.title")}</h1>
       <Card className="mb-6">
         <CardHeader>
-          <CardTitle>Add New Note</CardTitle>
+          <CardTitle>{t("notes.addNewNote")}</CardTitle>
         </CardHeader>
         <CardContent>
           <Form {...createForm}>
@@ -77,16 +79,21 @@ export default function Notes({ initialNotes }: NotesProps) {
                 name="content"
                 render={({ field }) => (
                   <FormItem>
-                    <FormLabel>Note</FormLabel>
+                    <FormLabel>{t("notes.noteLabel")}</FormLabel>
                     <FormControl>
-                      <Input placeholder="Type your note here" {...field} />
+                      <Input
+                        placeholder={t("notes.notePlaceholder")}
+                        {...field}
+                      />
                     </FormControl>
-                    <FormDescription>Enter a new note.</FormDescription>
+                    <FormDescription>
+                      {t("notes.noteDescription")}
+                    </FormDescription>
                     <FormMessage />
                   </FormItem>
                 )}
               />
-              <Button type="submit">Create Note</Button>
+              <Button type="submit">{t("notes.createNote")}</Button>
             </form>
           </Form>
         </CardContent>
@@ -115,8 +122,9 @@ function NoteCard({ note }: { note: Note }) {
 }
 
 function UpdateNoteForm({ note }: { note: Note }) {
+  const t = useI18n()
   const { form: updateForm, handleSubmitWithAction: handleUpdateSubmit } =
-    useHookFormAction(updateNoteAction, zodResolver(updateNoteSchema), {
+    useHookFormAction(updateNoteAction, zodResolver(UpdateNoteSchema(t)), {
       formProps: {
         defaultValues: {
           content: note.content
@@ -149,7 +157,7 @@ function UpdateNoteForm({ note }: { note: Note }) {
                       </Button>
                     </TooltipTrigger>
                     <TooltipContent>
-                      <p>Save changes</p>
+                      <p>{t("notes.saveChanges")}</p>
                     </TooltipContent>
                   </Tooltip>
                 </div>
@@ -164,8 +172,9 @@ function UpdateNoteForm({ note }: { note: Note }) {
 }
 
 function DeleteNoteForm({ noteId }: { noteId: string }) {
+  const t = useI18n()
   const { form: deleteForm, handleSubmitWithAction: handleDeleteSubmit } =
-    useHookFormAction(deleteNoteAction, zodResolver(deleteNoteSchema))
+    useHookFormAction(deleteNoteAction, zodResolver(DeleteNoteSchema))
 
   return (
     <TooltipProvider>
@@ -184,7 +193,7 @@ function DeleteNoteForm({ noteId }: { noteId: string }) {
               </Button>
             </TooltipTrigger>
             <TooltipContent>
-              <p>Delete</p>
+              <p>{t("notes.delete")}</p>
             </TooltipContent>
           </Tooltip>
         </form>

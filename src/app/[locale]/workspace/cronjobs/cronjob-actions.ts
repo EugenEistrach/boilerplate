@@ -1,6 +1,6 @@
 "use server"
 
-import { cronjobManager } from "@/app/workspace/cronjobs/cronjob-jobs"
+import { cronjobManager } from "@/app/[locale]/workspace/cronjobs/cronjob-jobs"
 import { db } from "@/db/db"
 import { eq } from "drizzle-orm"
 import { type CronjobStateType, Cronjobs } from "./cronjob-tables"

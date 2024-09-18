@@ -1,17 +1,18 @@
 "use server"
 
 import { actionClient } from "@/lib/actions"
+import { getI18n, i18n } from "@/locales/server"
 import { returnValidationErrors } from "next-safe-action"
 import { revalidatePath } from "next/cache"
 import { createNote, deleteNote, getNotes, updateNote } from "./note-queries"
 import {
-  createNoteSchema,
-  deleteNoteSchema,
-  updateNoteSchema
+  CreateNoteSchema,
+  DeleteNoteSchema,
+  UpdateNoteSchema
 } from "./note-validations"
 
 export const createNoteAction = actionClient
-  .schema(createNoteSchema)
+  .schema(i18n(CreateNoteSchema))
   .action(async ({ parsedInput: { content } }) => {
     const notes = await getNotes()
     const isDuplicate = notes.some(
@@ -19,18 +20,19 @@ export const createNoteAction = actionClient
     )
 
     if (isDuplicate) {
-      returnValidationErrors(createNoteSchema, {
-        content: { _errors: ["This content already exists"] }
+      const t = await getI18n()
+      returnValidationErrors(CreateNoteSchema(t), {
+        content: { _errors: [t("errors.contentAlreadyExists")] }
       })
     }
 
     const note = await createNote(content)
-    revalidatePath("/workspace/notes")
+    revalidatePath("/workspace/notses")
     return { success: true, note }
   })
 
 export const updateNoteAction = actionClient
-  .schema(updateNoteSchema)
+  .schema(i18n(UpdateNoteSchema))
   .action(async ({ parsedInput: { id, content } }) => {
     const notes = await getNotes()
     const isDuplicate = notes.some(
@@ -39,8 +41,9 @@ export const updateNoteAction = actionClient
     )
 
     if (isDuplicate) {
-      returnValidationErrors(updateNoteSchema, {
-        content: { _errors: ["This content already exists"] }
+      const t = await getI18n()
+      returnValidationErrors(UpdateNoteSchema(t), {
+        content: { _errors: [t("errors.contentAlreadyExists")] }
       })
     }
 
@@ -50,7 +53,7 @@ export const updateNoteAction = actionClient
   })
 
 export const deleteNoteAction = actionClient
-  .schema(deleteNoteSchema)
+  .schema(DeleteNoteSchema)
   .action(async ({ parsedInput: { id } }) => {
     await deleteNote(id)
     revalidatePath("/workspace/notes")

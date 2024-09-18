@@ -1,0 +1,97 @@
+export default {
+  "nav.features": "Funktionen",
+  "nav.pricing": "Preise",
+  "nav.about": "Über uns",
+  "nav.getStarted": "Loslegen",
+  "nav.goToApp": "Zur App",
+  "hero.title": "Starten Sie Ihr SaaS schneller",
+  "hero.description":
+    "Unser Boilerplate gibt Ihnen die Grundlage, um Ihr SaaS-Produkt in Rekordzeit aufzubauen und zu skalieren.",
+  "hero.learnMore": "Mehr erfahren",
+  "features.title": "Hauptfunktionen",
+  "features.authentication": "Authentifizierung",
+  "features.authenticationDescription":
+    "Integriertes Authentifizierungssystem mit mehreren Anbietern",
+  "features.databaseIntegration": "Datenbankintegration",
+  "features.databaseIntegrationDescription":
+    "Nahtlose Integration mit gängigen Datenbanken",
+  "features.apiRoutes": "API-Routen",
+  "features.apiRoutesDescription":
+    "Vorkonfigurierte API-Routen für schnelle Entwicklung",
+  "features.responsiveDesign": "Responsives Design",
+  "features.responsiveDesignDescription":
+    "Mobile-First, responsive Layouts von Anfang an",
+  "features.testingSetup": "Testumgebung",
+  "features.testingSetupDescription":
+    "Testumgebung bereit für Unit- und Integrationstests",
+  "features.deploymentReady": "Bereit zur Bereitstellung",
+  "features.deploymentReadyDescription":
+    "Ein-Klick-Bereitstellung auf beliebten Hosting-Plattformen",
+  "pricing.title": "Einfache Preisgestaltung",
+  "pricing.starter": "Starter",
+  "pricing.starterPrice": "29 €",
+  "pricing.starterDescription": "Perfekt für Nebenprojekte",
+  "pricing.starterFeature1": "Basis-Authentifizierung",
+  "pricing.starterFeature2": "SQLite-Datenbank",
+  "pricing.starterFeature3": "5 API-Routen",
+  "pricing.starterFeature4": "Community-Support",
+  "pricing.pro": "Pro",
+  "pricing.proPrice": "99 €",
+  "pricing.proDescription": "Für ernsthafte SaaS-Entwickler",
+  "pricing.proFeature1": "Erweiterte Authentifizierung",
+  "pricing.proFeature2": "PostgreSQL-Datenbank",
+  "pricing.proFeature3": "Unbegrenzte API-Routen",
+  "pricing.proFeature4": "Prioritäts-Support",
+  "pricing.enterprise": "Enterprise",
+  "pricing.enterprisePrice": "Individuell",
+  "pricing.enterpriseDescription": "Für große Anwendungen",
+  "pricing.enterpriseFeature1": "Maßgeschneiderte Auth-Lösungen",
+  "pricing.enterpriseFeature2": "Beliebige Datenbank",
+  "pricing.enterpriseFeature3": "Individuelle API-Entwicklung",
+  "pricing.enterpriseFeature4": "24/7 Support",
+  "pricing.perMonth": "pro Monat",
+  "pricing.choosePlan": "Plan wählen",
+  "cta.title": "Bereit, Ihre SaaS-Entwicklung zu beschleunigen?",
+  "cta.description":
+    "Beginnen Sie noch heute mit unserem Boilerplate und konzentrieren Sie sich auf das Wichtigste - Ihre einzigartigen Produktfunktionen.",
+  "cta.button": "Jetzt loslegen",
+  "footer.rights": "© {year} SaaS Boilerplate Inc. Alle Rechte vorbehalten.",
+  "footer.terms": "Nutzungsbedingungen",
+  "footer.privacy": "Datenschutz",
+  "signIn.title": "Melden Sie sich bei Ihrem Konto an",
+  "signIn.description": "Wählen Sie Ihre bevorzugte Anmeldemethode",
+  "signIn.github": "Mit GitHub anmelden",
+  "signIn.discord": "Mit Discord anmelden",
+  "workspace.title": "Arbeitsbereich",
+  "workspace.notes": "Notizen",
+  "workspace.notesDescription": "Verwalten Sie Ihre Notizen und Ideen",
+  "workspace.goToNotes": "Zu den Notizen",
+  "workspace.settings": "Einstellungen",
+  "workspace.settingsDescription":
+    "Passen Sie Ihre Arbeitsbereichseinstellungen an",
+  "workspace.goToSettings": "Zu den Einstellungen",
+  "notes.title": "Notizen",
+  "notes.addNewNote": "Neue Notiz hinzufügen",
+  "notes.noteLabel": "Notiz",
+  "notes.notePlaceholder": "Geben Sie hier Ihre Notiz ein",
+  "notes.noteDescription": "Geben Sie eine neue Notiz ein.",
+  "notes.createNote": "Notiz erstellen",
+  "notes.saveChanges": "Änderungen speichern",
+  "notes.delete": "Löschen",
+  errors: {
+    contentRequired: "Inhalt ist erforderlich",
+    contentAlreadyExists: "Dieser Inhalt existiert bereits"
+  },
+  user: {
+    defaultName: "Benutzer",
+    avatarAlt: "Benutzer-Avatar",
+    manageAccount: "Konto verwalten",
+    signOut: "Abmelden"
+  },
+  theme: {
+    toggle: "Thema umschalten",
+    light: "Hell",
+    dark: "Dunkel",
+    system: "System"
+  }
+} as const

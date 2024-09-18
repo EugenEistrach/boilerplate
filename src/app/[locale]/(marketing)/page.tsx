@@ -1,3 +1,4 @@
+import { LocaleSwitcher } from "@/components/locale-switcher"
 import { ThemeToggle } from "@/components/theme-toggle"
 import { Button } from "@/components/ui/button"
 import {
@@ -9,12 +10,14 @@ import {
   CardTitle
 } from "@/components/ui/card"
 import { auth } from "@/lib/auth"
+import { getI18n } from "@/locales/server"
 import { CheckCircle2 } from "lucide-react"
 import Link from "next/link"
 
 export default async function Component() {
   const session = await auth()
   const userId = session?.user?.email
+  const t = await getI18n()
 
   return (
     <div className="flex flex-col min-h-screen">
@@ -43,24 +46,24 @@ export default async function Component() {
             className="text-sm font-medium hover:underline underline-offset-4"
             href="#features"
           >
-            Features
+            {t("nav.features")}
           </a>
           <a
             className="text-sm font-medium hover:underline underline-offset-4"
             href="#pricing"
           >
-            Pricing
+            {t("nav.pricing")}
           </a>
           <a
             className="text-sm font-medium hover:underline underline-offset-4"
             href="/"
           >
-            About
+            {t("nav.about")}
           </a>
           <ThemeToggle />
           <Button asChild>
             <Link href={userId ? "/workspace" : "/sign-in"}>
-              {userId ? "Go to App" : "Get Started"}
+              {userId ? t("nav.goToApp") : t("nav.getStarted")}
             </Link>
           </Button>
         </nav>
@@ -71,20 +74,19 @@ export default async function Component() {
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h1 className="text-3xl font-bold tracking-tighter sm:text-4xl md:text-5xl lg:text-6xl/none">
-                  Launch Your SaaS Faster
+                  {t("hero.title")}
                 </h1>
                 <p className="mx-auto max-w-[700px] md:text-xl  text-muted-foreground">
-                  Our boilerplate gives you the foundation to build and scale
-                  your SaaS product in record time.
+                  {t("hero.description")}
                 </p>
               </div>
               <div className="space-x-4">
                 <Button asChild>
                   <Link href={userId ? "/workspace" : "/sign-in"}>
-                    {userId ? "Go to App" : "Get Started"}
+                    {userId ? t("nav.goToApp") : t("nav.getStarted")}
                   </Link>
                 </Button>
-                <Button variant="outline">Learn More</Button>
+                <Button variant="outline">{t("hero.learnMore")}</Button>
               </div>
             </div>
           </div>
@@ -95,35 +97,33 @@ export default async function Component() {
         >
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
-              Key Features
+              {t("features.title")}
             </h2>
             <div className="grid gap-6 lg:grid-cols-3 lg:gap-12">
               {[
                 {
-                  title: "Authentication",
-                  description: "Built-in auth system with multiple providers"
+                  title: t("features.authentication"),
+                  description: t("features.authenticationDescription")
                 },
                 {
-                  title: "Database Integration",
-                  description: "Seamless integration with popular databases"
+                  title: t("features.databaseIntegration"),
+                  description: t("features.databaseIntegrationDescription")
                 },
                 {
-                  title: "API Routes",
-                  description: "Pre-configured API routes for rapid development"
+                  title: t("features.apiRoutes"),
+                  description: t("features.apiRoutesDescription")
                 },
                 {
-                  title: "Responsive Design",
-                  description: "Mobile-first, responsive layouts out of the box"
+                  title: t("features.responsiveDesign"),
+                  description: t("features.responsiveDesignDescription")
                 },
                 {
-                  title: "Testing Setup",
-                  description:
-                    "Testing environment ready for unit and integration tests"
+                  title: t("features.testingSetup"),
+                  description: t("features.testingSetupDescription")
                 },
                 {
-                  title: "Deployment Ready",
-                  description:
-                    "One-click deployment to popular hosting platforms"
+                  title: t("features.deploymentReady"),
+                  description: t("features.deploymentReadyDescription")
                 }
               ].map(feature => (
                 <Card key={feature.title}>
@@ -141,41 +141,41 @@ export default async function Component() {
         <section id="pricing" className="w-full py-12 md:py-24 lg:py-32">
           <div className="container px-4 md:px-6">
             <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl text-center mb-12">
-              Simple Pricing
+              {t("pricing.title")}
             </h2>
             <div className="grid gap-6 lg:grid-cols-3 lg:gap-12">
               {[
                 {
-                  title: "Starter",
-                  price: "$29",
-                  description: "Perfect for side projects",
+                  title: t("pricing.starter"),
+                  price: t("pricing.starterPrice"),
+                  description: t("pricing.starterDescription"),
                   features: [
-                    "Basic Authentication",
-                    "SQLite Database",
-                    "5 API Routes",
-                    "Community Support"
+                    t("pricing.starterFeature1"),
+                    t("pricing.starterFeature2"),
+                    t("pricing.starterFeature3"),
+                    t("pricing.starterFeature4")
                   ]
                 },
                 {
-                  title: "Pro",
-                  price: "$99",
-                  description: "For serious SaaS builders",
+                  title: t("pricing.pro"),
+                  price: t("pricing.proPrice"),
+                  description: t("pricing.proDescription"),
                   features: [
-                    "Advanced Auth",
-                    "PostgreSQL Database",
-                    "Unlimited API Routes",
-                    "Priority Support"
+                    t("pricing.proFeature1"),
+                    t("pricing.proFeature2"),
+                    t("pricing.proFeature3"),
+                    t("pricing.proFeature4")
                   ]
                 },
                 {
-                  title: "Enterprise",
-                  price: "Custom",
-                  description: "For large-scale applications",
+                  title: t("pricing.enterprise"),
+                  price: t("pricing.enterprisePrice"),
+                  description: t("pricing.enterpriseDescription"),
                   features: [
-                    "Custom Auth Solutions",
-                    "Any Database",
-                    "Custom API Development",
-                    "24/7 Support"
+                    t("pricing.enterpriseFeature1"),
+                    t("pricing.enterpriseFeature2"),
+                    t("pricing.enterpriseFeature3"),
+                    t("pricing.enterpriseFeature4")
                   ]
                 }
               ].map(plan => (
@@ -186,7 +186,9 @@ export default async function Component() {
                   </CardHeader>
                   <CardContent className="flex-1">
                     <p className="text-4xl font-bold">{plan.price}</p>
-                    <p className="text-sm text-muted-foreground">per month</p>
+                    <p className="text-sm text-muted-foreground">
+                      {t("pricing.perMonth")}
+                    </p>
                     <ul className="mt-4 space-y-2">
                       {plan.features.map(feature => (
                         <li key={feature} className="flex items-center">
@@ -197,7 +199,9 @@ export default async function Component() {
                     </ul>
                   </CardContent>
                   <CardFooter>
-                    <Button className="w-full">Choose Plan</Button>
+                    <Button className="w-full">
+                      {t("pricing.choosePlan")}
+                    </Button>
                   </CardFooter>
                 </Card>
               ))}
@@ -209,15 +213,14 @@ export default async function Component() {
             <div className="flex flex-col items-center space-y-4 text-center">
               <div className="space-y-2">
                 <h2 className="text-3xl font-bold tracking-tighter sm:text-5xl">
-                  Ready to Accelerate Your SaaS Development?
+                  {t("cta.title")}
                 </h2>
                 <p className="mx-auto max-w-[700px] text-muted-foreground md:text-xl">
-                  Get started with our boilerplate today and focus on what
-                  matters most - your unique product features.
+                  {t("cta.description")}
                 </p>
               </div>
               <div className="space-x-4">
-                <Button size="lg">Get Started Now</Button>
+                <Button size="lg">{t("cta.button")}</Button>
               </div>
             </div>
           </div>
@@ -225,16 +228,16 @@ export default async function Component() {
       </main>
       <footer className="flex flex-col gap-2 sm:flex-row py-6 w-full shrink-0 items-center px-4 md:px-6 border-t">
         <p className="text-xs text-muted-foreground">
-          © {new Date().getFullYear()} SaaS Boilerplate Inc. All rights
-          reserved.
+          {t("footer.rights", { year: new Date().getFullYear() })}
         </p>
-        <nav className="sm:ml-auto flex gap-4 sm:gap-6">
+        <nav className="sm:ml-auto flex gap-4 sm:gap-6 items-center">
           <a className="text-xs hover:underline underline-offset-4" href="/">
-            Terms of Service
+            {t("footer.terms")}
           </a>
           <a className="text-xs hover:underline underline-offset-4" href="/">
-            Privacy
+            {t("footer.privacy")}
           </a>
+          <LocaleSwitcher />
         </nav>
       </footer>
     </div>

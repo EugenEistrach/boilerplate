@@ -1,6 +1,7 @@
-import "./globals.css"
+import "../[locale]/globals.css"
 import { ThemeProvider } from "@/components/theme-provider"
 import { TooltipProvider } from "@/components/ui/tooltip"
+import { I18nProviderClient } from "@/locales/client"
 import type { Metadata } from "next"
 import { Inter } from "next/font/google"
 
@@ -12,15 +13,19 @@ export const metadata: Metadata = {
 }
 
 export default function RootLayout({
-  children
+  children,
+  params: { locale }
 }: {
   children: React.ReactNode
+  params: { locale: string }
 }) {
   return (
     <html lang="en" suppressHydrationWarning>
       <body className={inter.className}>
         <ThemeProvider attribute="class" defaultTheme="system" enableSystem>
-          <TooltipProvider>{children}</TooltipProvider>
+          <TooltipProvider>
+            <I18nProviderClient locale={locale}>{children}</I18nProviderClient>
+          </TooltipProvider>
         </ThemeProvider>
       </body>
     </html>
