@@ -1,5 +1,6 @@
 "use client"
 
+import { useUser } from "@/app/workspace/user/user-provider"
 import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar"
 import { Button } from "@/components/ui/button"
 import {
@@ -8,9 +9,7 @@ import {
   DropdownMenuItem,
   DropdownMenuTrigger
 } from "@/components/ui/dropdown-menu"
-import { LogOut, Settings } from "lucide-react"
-import type { User } from "next-auth"
-import { use } from "react"
+import { LogOut } from "lucide-react"
 import { Skeleton } from "./ui/skeleton"
 
 export const UserButtonSkeleton = () => {
@@ -18,19 +17,15 @@ export const UserButtonSkeleton = () => {
 }
 
 export const UserButton = ({
-  userPromise,
   signOutAction
 }: {
-  userPromise: Promise<User | null>
   signOutAction: () => void
 }) => {
-  const user = use(userPromise)
+  const user = useUser()
 
-  if (!user) return <UserButtonSkeleton />
-
-  const name = user?.name || user?.email?.split("@")[0] || "User"
+  const name = user.name || user.email.split("@")[0] || "User"
   const email = user.email
-  const image = user.image ?? ""
+  const image = user.avatarUrl ?? ""
 
   const shortName = name
     .split(" ")

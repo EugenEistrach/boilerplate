@@ -1,7 +1,7 @@
 import { cuid } from "@/lib/utils"
 import { integer, sqliteTable, text } from "drizzle-orm/sqlite-core"
 
-export const CronjobState = sqliteTable("cronjob_state", {
+export const Cronjobs = sqliteTable("cronjob", {
   id: text("id")
     .primaryKey()
     .$default(() => cuid()),
@@ -10,5 +10,5 @@ export const CronjobState = sqliteTable("cronjob_state", {
   enabled: integer("enabled", { mode: "boolean" }).notNull().default(true)
 })
 
-export type CronjobStateType = typeof CronjobState.$inferSelect
-export type NewCronjobStateType = typeof CronjobState.$inferInsert
+export type CronjobStateType = typeof Cronjobs.$inferSelect
+export type NewCronjobStateType = typeof Cronjobs.$inferInsert

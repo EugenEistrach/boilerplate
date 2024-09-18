@@ -4,7 +4,7 @@ import { createServer } from "node:http"
 import { parse } from "node:url"
 import next from "next"
 
-import { cronjobManager } from "@/jobs"
+import { cronjobManager } from "@/app/workspace/cronjobs/cronjob-jobs"
 
 const port = Number.parseInt(process.env.PORT || "3000")
 const dev = process.env.NODE_ENV !== "production"

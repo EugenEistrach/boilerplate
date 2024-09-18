@@ -1,9 +1,9 @@
 "use server"
 
+import { cronjobManager } from "@/app/workspace/cronjobs/cronjob-jobs"
 import { db } from "@/db/db"
-import { cronjobManager } from "@/jobs"
 import { eq } from "drizzle-orm"
-import { CronjobState, type CronjobStateType } from "./cronjob-tables"
+import { type CronjobStateType, Cronjobs } from "./cronjob-tables"
 
 type UpdateType = Partial<Pick<CronjobStateType, "enabled" | "expression">>
 
@@ -13,17 +13,17 @@ export async function updateCronjobState(
 ): Promise<CronjobStateType> {
   const existingState = await db
     .select()
-    .from(CronjobState)
-    .where(eq(CronjobState.name, name))
+    .from(Cronjobs)
+    .where(eq(Cronjobs.name, name))
     .get()
 
   let updatedState: CronjobStateType
 
   if (existingState) {
     updatedState = await db
-      .update(CronjobState)
+      .update(Cronjobs)
       .set(updates)
-      .where(eq(CronjobState.name, name))
+      .where(eq(Cronjobs.name, name))
       .returning()
       .get()
   } else {
@@ -32,11 +32,7 @@ export async function updateCronjobState(
       expression: updates.expression ?? "* * * * *",
       enabled: updates.enabled ?? true
     }
-    updatedState = await db
-      .insert(CronjobState)
-      .values(newState)
-      .returning()
-      .get()
+    updatedState = await db.insert(Cronjobs).values(newState).returning().get()
   }
 
   // Update the running cronjob

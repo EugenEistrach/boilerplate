@@ -11,6 +11,8 @@ export const env = createEnv({
     AUTH_SECRET: z.string().min(1),
     AUTH_GITHUB_ID: z.string().optional(),
     AUTH_GITHUB_SECRET: z.string().optional(),
+    AUTH_DISCORD_ID: z.string().optional(),
+    AUTH_DISCORD_SECRET: z.string().optional(),
     AUTH_URL: z.string().default("http://localhost:3000")
   },
   client: {
@@ -26,6 +28,8 @@ export const env = createEnv({
     AUTH_SECRET: process.env.AUTH_SECRET,
     AUTH_GITHUB_ID: process.env.AUTH_GITHUB_ID,
     AUTH_GITHUB_SECRET: process.env.AUTH_GITHUB_SECRET,
+    AUTH_DISCORD_ID: process.env.AUTH_DISCORD_ID,
+    AUTH_DISCORD_SECRET: process.env.AUTH_DISCORD_SECRET,
     AUTH_URL: process.env.AUTH_URL
   }
 })

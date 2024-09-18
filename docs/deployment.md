@@ -1,59 +1,82 @@
 # Deployment Guide
 
-## Step 1: Create and Push GitHub Repository
+## Step 1: Initialize Git and Create GitHub Repository
 
-1. **Create a New GitHub Repository using GitHub CLI:**
+1. **Initialize Git in your project directory:**
    ```sh
-   gh repo create <your-repo-name> --public --source=. --remote=origin
+   git init
    ```
 
-2. **Push the Project to GitHub:**
+2. **Create and push to a new GitHub repository:**
+   ```sh
+   gh repo create
+   ```
+
+
+## Step 2: Set Up OAuth Apps
+
+1. **Create GitHub OAuth App:**
+   - Go to GitHub Developer Settings > OAuth Apps > New OAuth App
+   - Set Homepage URL to your app's URL
+   - Set Authorization callback URL to `<your-app-url>/api/auth/callback/github`
+   - Note down the Client ID and generate a Client Secret
+
+2. **Create Discord OAuth App:**
+   - Go to Discord Developer Portal > Applications > New Application
+   - In OAuth2 settings, add redirect URL: `<your-app-url>/api/auth/callback/discord`
+   - Note down the Client ID and Client Secret
+
+## Step 3: Set Up Coolify Project
+
+1. **Create New Project in Coolify:**
+   - Log in to your Coolify instance
+   - Create a new project and select "Docker Compose" as deployment method
+
+2. **Configure Environment Variables:**
+   - Add all variables from your `.env` file
+   - Include OAuth credentials:
+     ```
+     GITHUB_CLIENT_ID=<your-github-client-id>
+     GITHUB_CLIENT_SECRET=<your-github-client-secret>
+     DISCORD_CLIENT_ID=<your-discord-client-id>
+     DISCORD_CLIENT_SECRET=<your-discord-client-secret>
+     ```
+
+3. **Set Up Webhook:**
+   - In Coolify project settings, find the webhook URL
+   - Copy this URL for later use
+
+4. **Create Coolify API Token:**
+   - In Coolify settings, create a new API token
+   - Copy this token for later use
+
+## Step 4: Configure GitHub Repository
+
+1. **Add Coolify Secrets to GitHub:**
+   - Go to your GitHub repository settings > Secrets and variables > Actions
+   - Add two new repository secrets:
+     - Name: `COOLIFY_WEBHOOK_URL`, Value: <webhook-url-from-coolify>
+     - Name: `COOLIFY_API_KEY`, Value: <api-token-from-coolify>
+
+## Step 5: Update Application and Test Deployment
+
+1. **Update App Name:**
+   - In `src/app/layout.tsx`, change the app name as desired
+
+2. **Commit and Push Changes:**
    ```sh
    git add .
-   git commit -m "Initial commit"
-   git push -u origin main
+   git commit -m "Update app name and deployment configuration"
+   git push
    ```
 
-## Step 2: Link GitHub Repository in Coolify
+3. **Monitor Deployment:**
+   - Check your GitHub Actions tab to see the build and deployment process
+   - Verify in Coolify that the new deployment is triggered and completed successfully
 
-1. **Log in to Coolify:**
-   - Open your Coolify instance in your web browser and log in.
-
-2. **Add a New Application:**
-   - Go to the "Applications" section and click "Add Application".
-
-3. **Select Docker Compose Preset:**
-   - Choose "Docker Compose" as the deployment method.
-
-4. **Link GitHub Repository:**
-   - Select "GitHub" as the source.
-   - Authenticate with GitHub if prompted.
-   - Select the repository you just created.
-   - Choose the `main` branch.
-
-5. **Configure Docker Compose:**
-   - Ensure the Docker Compose file path is set to `docker-compose.yml`.
-
-6. **Set Environment Variables:**
-   - Add the environment variables from your `.env` file in the Coolify interface.
-
-7. **Set Up Volumes:**
-   - Ensure the volume for the SQLite database is correctly set up in Coolify. This should match the volume defined in your `docker-compose.yml` file.
-
-8. **Set Up Webhooks:**
-   - In Coolify, set up a webhook to trigger deployments on push events to the `main` branch of your GitHub repository.
-
-9. **Deploy the Application:**
-   - Click "Deploy" to start the deployment process.
-
-## Step 3: Verify the Deployment
-
-1. **Check the Application Status:**
-   - Once the deployment is complete, check the status of your application in Coolify to ensure it is running correctly.
-
-2. **Access the Application:**
-   - Open the URL provided by Coolify to access your deployed Next.js application.
+4. **Access Your Application:**
+   - Once deployed, access your application via the URL provided by Coolify
 
 ## Summary
 
-By following these steps, you have created a GitHub repository, pushed your project, and linked it in Coolify using webhooks and Docker Compose preset. Coolify will handle the deployment process, ensuring that your application is up and running.
+This guide walks you through initializing your Git repository, setting up OAuth apps, configuring Coolify, setting up GitHub secrets, and testing the automated deployment process. Ensure all environment variables and secrets are correctly set for a successful deployment.

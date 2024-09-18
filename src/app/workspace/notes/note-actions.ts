@@ -1,7 +1,6 @@
 "use server"
 
 import { actionClient } from "@/lib/actions"
-import "server-only"
 import { returnValidationErrors } from "next-safe-action"
 import { revalidatePath } from "next/cache"
 import { createNote, deleteNote, getNotes, updateNote } from "./note-queries"

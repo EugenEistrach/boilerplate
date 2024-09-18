@@ -1,4 +1,4 @@
-import { CronjobManager, job } from "./app/workspace/cronjobs/cronjob-manager"
+import { CronjobManager, job } from "./cronjob-manager"
 
 export const JOBS = [
   job({

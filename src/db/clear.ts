@@ -1,3 +1,5 @@
+import "server-only"
+
 import "dotenv/config"
 
 import { execSync } from "node:child_process"

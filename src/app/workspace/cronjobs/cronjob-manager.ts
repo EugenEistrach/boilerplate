@@ -1,7 +1,7 @@
 import { db } from "@/db/db"
 import { eq, inArray, not } from "drizzle-orm"
 import cron from "node-cron"
-import { CronjobState, type CronjobStateType } from "./cronjob-tables"
+import { type CronjobStateType, Cronjobs } from "./cronjob-tables"
 
 export type CronjobDefinition = {
   name: string
@@ -78,9 +78,9 @@ export class CronjobManager {
   ): Promise<void> {
     console.log("Checking for cronjobs to remove...")
     const removedCronjobs = await db
-      .select({ name: CronjobState.name })
-      .from(CronjobState)
-      .where(not(inArray(CronjobState.name, defaultJobNames)))
+      .select({ name: Cronjobs.name })
+      .from(Cronjobs)
+      .where(not(inArray(Cronjobs.name, defaultJobNames)))
       .all()
 
     if (removedCronjobs.length > 0) {
@@ -90,8 +90,8 @@ export class CronjobManager {
       }
 
       await db
-        .delete(CronjobState)
-        .where(not(inArray(CronjobState.name, defaultJobNames)))
+        .delete(Cronjobs)
+        .where(not(inArray(Cronjobs.name, defaultJobNames)))
         .execute()
 
       console.log("Removed outdated cronjobs from the database")
@@ -105,19 +105,19 @@ export class CronjobManager {
     for (const defaultJob of this.jobs) {
       const existingJob = await db
         .select()
-        .from(CronjobState)
-        .where(eq(CronjobState.name, defaultJob.name))
+        .from(Cronjobs)
+        .where(eq(Cronjobs.name, defaultJob.name))
         .get()
 
       const dbState = await db
-        .insert(CronjobState)
+        .insert(Cronjobs)
         .values({
           name: defaultJob.name,
           expression: defaultJob.expression,
           enabled: true
         })
         .onConflictDoUpdate({
-          target: CronjobState.name,
+          target: Cronjobs.name,
           set: {
             name: defaultJob.name
           }
