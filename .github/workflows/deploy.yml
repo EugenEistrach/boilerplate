@@ -9,12 +9,14 @@ jobs:
   deploy:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - name: Set up SSH
-        uses: webfactory/ssh-agent@v0.7.0
+      - name: Cloning repo
+        uses: actions/checkout@v3
         with:
-          ssh-private-key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY }}
-      - name: Deploy to Dokku
-        run: |
-          git remote add dokku ${{ secrets.DOKKU_REMOTE_URL }}
-          git push dokku main:master -f
+          fetch-depth: 0
+
+      - name: Push to dokku
+        uses: dokku/github-action@master
+        with:
+          git_remote_url: ${{ secrets.DOKKU_REMOTE_URL }}
+          ssh_private_key: ${{ secrets.DOKKU_SSH_PRIVATE_KEY }}
+

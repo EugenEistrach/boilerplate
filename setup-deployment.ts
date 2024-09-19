@@ -19,7 +19,7 @@ async function runCommand(command: string, local = false): Promise<void> {
   try {
     console.log(`Running: ${command}`)
     const { stdout, stderr } = await execPromise(
-      local ? command : `ssh root@${remoteHost} "${command}"`
+      local ? command : `ssh root@${remoteHost} '${command}'`
     )
     if (stdout) console.log(stdout)
     if (stderr) console.error(stderr)
@@ -64,10 +64,8 @@ async function generateAndSetupSSHKey(appName: string): Promise<void> {
   // Read the public key
   const publicKey = await fs.readFile(`${keyPath}.pub`, "utf8")
 
-  // Add the public key to Dokku
-  await runCommand(
-    `echo "${publicKey}" | ssh root@${remoteHost} "dokku ssh-keys:add ${appName} -"`
-  )
+  // Add the public key to Dokku using the new approach
+  await runCommand(`echo "${publicKey.trim()}" | dokku ssh-keys:add ${appName}`)
   console.log("Added SSH public key to Dokku")
 
   // Read the private key
