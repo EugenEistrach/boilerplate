@@ -69,20 +69,16 @@ async function setupDokkuApp(): Promise<void> {
 
   const hostname = `https://${appName}.${domain}`
   await runCommand(
-    `dokku config:set --no-restart ${appName} HOSTNAME=${hostname} AUTH_URL=${hostname} DATABASE_URL=/app/database/database.sqlite AUTH_TRUST_HOST=true`
+    `dokku config:set ${appName} HOSTNAME=${hostname} AUTH_URL=${hostname} DATABASE_URL=/app/database/database.sqlite AUTH_TRUST_HOST=true`
   )
 
   // Generate and set AUTH_SECRET
   const authSecret = crypto.randomBytes(33).toString("base64")
-  await runCommand(
-    `dokku config:set --no-restart ${appName} AUTH_SECRET=${authSecret}`
-  )
+  await runCommand(`dokku config:set ${appName} AUTH_SECRET=${authSecret}`)
   console.log("Generated and set AUTH_SECRET")
 
   // Set EMAIL_FROM
-  await runCommand(
-    `dokku config:set --no-restart ${appName} EMAIL_FROM=noreply@${domain}`
-  )
+  await runCommand(`dokku config:set ${appName} EMAIL_FROM=noreply@${domain}`)
   console.log("Set EMAIL_FROM")
 
   // Set up Let's Encrypt
