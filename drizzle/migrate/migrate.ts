@@ -4,6 +4,8 @@ import { drizzle } from "drizzle-orm/better-sqlite3"
 
 import { migrate } from "drizzle-orm/better-sqlite3/migrator"
 
+console.log("All environment variables:", process.env)
+
 const url = process.env.DATABASE_URL
 
 if (!url) {
