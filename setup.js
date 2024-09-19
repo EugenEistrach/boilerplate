@@ -68,6 +68,8 @@ async function setup() {
     console.log("- AUTH_GITHUB_SECRET: Your GitHub App's Client Secret")
     console.log("- AUTH_DISCORD_ID: Your Discord App's Client ID")
     console.log("- AUTH_DISCORD_SECRET: Your Discord App's Client Secret")
+
+    console.log("Run pnpm setup-deployment to setup production deployment")
   } catch (error) {
     console.error("An error occurred during setup:", error)
   }

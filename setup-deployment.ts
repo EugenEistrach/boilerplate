@@ -3,6 +3,7 @@
 import { exec } from "node:child_process"
 import crypto from "node:crypto"
 import fs from "node:fs/promises"
+import path from "node:path"
 import util from "node:util"
 
 const execPromise = util.promisify(exec)
@@ -50,13 +51,81 @@ async function readConfig() {
   return deploymentConfig
 }
 
+async function generateAndSetupSSHKey(appName: string): Promise<void> {
+  const keyPath = path.join(process.env.HOME || "", ".ssh", `id_rsa_${appName}`)
+
+  // Generate SSH key
+  await runCommand(
+    `ssh-keygen -t rsa -b 4096 -C "${appName}" -f "${keyPath}" -N ""`,
+    true
+  )
+  console.log(`Generated SSH key: ${keyPath}`)
+
+  // Read the public key
+  const publicKey = await fs.readFile(`${keyPath}.pub`, "utf8")
+
+  // Add the public key to Dokku
+  await runCommand(
+    `echo "${publicKey}" | ssh root@${remoteHost} "dokku ssh-keys:add ${appName} -"`
+  )
+  console.log("Added SSH public key to Dokku")
+
+  // Read the private key
+  const privateKey = await fs.readFile(keyPath, "utf8")
+
+  // Set the private key as a GitHub secret
+  try {
+    await runCommand(
+      `gh secret set DOKKU_SSH_PRIVATE_KEY -b"${privateKey}"`,
+      true
+    )
+    console.log("Set DOKKU_SSH_PRIVATE_KEY as a GitHub secret")
+  } catch (error) {
+    console.error("Failed to set GitHub secret:", error)
+    console.log(
+      "Please set the DOKKU_SSH_PRIVATE_KEY secret manually in your GitHub repository settings."
+    )
+  }
+}
+
 async function setupDokkuApp(): Promise<void> {
   const deploymentConfig = await readConfig()
   const { appName, domain } = deploymentConfig
 
+  // Setup GitHub repository
+  console.log("Setting up GitHub repository...")
+  try {
+    await runCommand(
+      `gh repo create ${appName} --public --source=. --remote=upstream --confirm`,
+      true
+    )
+    console.log(`GitHub repository '${appName}' created successfully.`)
+  } catch (error) {
+    console.error("Failed to create GitHub repository:", error)
+    console.log("Please create the repository manually if needed.")
+  }
+
+  // Setup GitHub secret for Dokku remote URL
+  console.log("Setting up GitHub secret for Dokku remote URL...")
+  try {
+    await runCommand(
+      `gh secret set DOKKU_REMOTE_URL -b"ssh://dokku@${remoteHost}:22/${appName}"`,
+      true
+    )
+    console.log("GitHub secret 'DOKKU_REMOTE_URL' set successfully.")
+  } catch (error) {
+    console.error("Failed to set GitHub secret:", error)
+    console.log(
+      "Please set the DOKKU_REMOTE_URL secret manually in your GitHub repository settings."
+    )
+  }
+
   console.log(`Setting up Dokku app: ${appName}`)
   // Create the app
   await runCommand(`dokku apps:create ${appName}`)
+
+  // Generate and setup SSH key
+  await generateAndSetupSSHKey(appName)
 
   // Set up SQLite storage
   await runCommand(`dokku storage:ensure-directory ${appName}`)
@@ -69,16 +138,20 @@ async function setupDokkuApp(): Promise<void> {
 
   const hostname = `https://${appName}.${domain}`
   await runCommand(
-    `dokku config:set ${appName} HOSTNAME=${hostname} AUTH_URL=${hostname} DATABASE_URL=/app/database/database.sqlite AUTH_TRUST_HOST=true`
+    `dokku config:set --no-restart ${appName} HOSTNAME=${hostname} AUTH_URL=${hostname} DATABASE_URL=/app/database/database.sqlite AUTH_TRUST_HOST=true`
   )
 
   // Generate and set AUTH_SECRET
   const authSecret = crypto.randomBytes(33).toString("base64")
-  await runCommand(`dokku config:set ${appName} AUTH_SECRET=${authSecret}`)
+  await runCommand(
+    `dokku config:set --no-restart ${appName} AUTH_SECRET=${authSecret}`
+  )
   console.log("Generated and set AUTH_SECRET")
 
   // Set EMAIL_FROM
-  await runCommand(`dokku config:set ${appName} EMAIL_FROM=noreply@${domain}`)
+  await runCommand(
+    `dokku config:set --no-restart ${appName} EMAIL_FROM=noreply@${domain}`
+  )
   console.log("Set EMAIL_FROM")
 
   // Set up Let's Encrypt
@@ -94,9 +167,6 @@ async function setupDokkuApp(): Promise<void> {
   } catch (error) {
     console.log("Git remote 'dokku' already exists. Skipping...")
   }
-
-  console.log("\nDokku app setup complete. You can now push your code with:")
-  console.log("git push dokku main")
 
   console.log("\nNext steps:")
   console.log("Set the following environment variables manually:")
@@ -115,10 +185,17 @@ async function setupDokkuApp(): Promise<void> {
     console.log(`dokku config:set --no-restart ${appName} ${varName}=`)
   }
 
-  console.log("\nTo set environment variables from clipboard, use:")
+  console.log("\nOAuth Setup:")
+  console.log("For GitHub OAuth: https://github.com/settings/developers")
+  console.log("For Discord OAuth: https://discord.com/developers/applications")
+  console.log("\nUse these callback URLs when setting up OAuth:")
+  console.log(`GitHub: ${hostname}/api/auth/callback/github`)
+  console.log(`Discord: ${hostname}/api/auth/callback/discord`)
+
   console.log(
-    `pbpaste | ssh root@${remoteHost} dokku config:set --encoded --no-restart ${appName}`
+    "Once everything is setup you can push the code to github and it will automatically deploy to the server:"
   )
+  console.log("git push")
 }
 
 setupDokkuApp().catch(error => {
