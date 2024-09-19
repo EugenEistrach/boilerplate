@@ -8,12 +8,29 @@ async function setup() {
     // Read the existing package.json
     const packageJson = JSON.parse(await fs.readFile("package.json", "utf8"))
 
-    // Customize the package.json
-    packageJson.name = path.basename(process.cwd())
+    // Get the app name (basename of the current directory)
+    const appName = path.basename(process.cwd())
+
+    // Update package.json
+    packageJson.name = appName
     packageJson.version = "0.1.0"
 
     // Write the updated package.json
     await fs.writeFile("package.json", JSON.stringify(packageJson, null, 2))
+
+    // Update deployment.json
+    let deploymentConfig = {}
+    try {
+      const existingConfig = await fs.readFile("deployment.json", "utf8")
+      deploymentConfig = JSON.parse(existingConfig)
+    } catch (error) {
+      // File doesn't exist or is invalid JSON, use empty object
+    }
+    deploymentConfig.appName = appName
+    await fs.writeFile(
+      "deployment.json",
+      JSON.stringify(deploymentConfig, null, 2)
+    )
 
     // Initialize git repository
     execSync("git init")
@@ -41,6 +58,9 @@ async function setup() {
     execSync("pnpm run db:reset", { stdio: "inherit" })
 
     console.log("Project setup completed successfully!")
+    console.log(
+      "\nThe deployment.json file has been updated with the appName configuration."
+    )
     console.log(
       "\nIMPORTANT: Please manually set up your GitHub and Discord OAuth apps and update the following variables in .env:"
     )
