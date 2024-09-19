@@ -1,5 +1,6 @@
 import { auth } from "@/lib/auth"
 import { sendEmail } from "@/lib/email"
+import { url } from "@/locales/server"
 import { redirect } from "next/navigation"
 import WelcomeEmail from "../../../../emails/welcome"
 import { createUser, getUserByEmail } from "../workspace/user/user-queries"
@@ -9,13 +10,13 @@ export default async function OnboardingPage() {
   const email = session?.user?.email
 
   if (!email) {
-    return redirect("/sign-in")
+    return redirect(url("/sign-in"))
   }
 
   const currentUser = await getUserByEmail(email)
 
   if (currentUser) {
-    return redirect("/workspace")
+    return redirect(url("/workspace"))
   }
 
   // We create the user here and then redirect to the workspace
@@ -33,5 +34,5 @@ export default async function OnboardingPage() {
     react: <WelcomeEmail username={email} />
   })
 
-  return redirect("/workspace")
+  return redirect(url("/workspace"))
 }

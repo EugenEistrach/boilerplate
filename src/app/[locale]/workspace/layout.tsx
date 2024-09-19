@@ -1,9 +1,7 @@
-import {
-  UserButton,
-  UserButtonSkeleton
-} from "@/app/[locale]/workspace/user/ui/user-button"
+import { UserButton } from "@/app/[locale]/workspace/user/ui/user-button"
 import { LocaleSwitcher } from "@/components/locale-switcher"
 import { ThemeToggle } from "@/components/theme-toggle"
+import { Link } from "@/components/ui/link"
 import {
   Tooltip,
   TooltipContent,
@@ -11,8 +9,6 @@ import {
 } from "@/components/ui/tooltip"
 import { signOut } from "@/lib/auth"
 import { Zap } from "lucide-react"
-import Link from "next/link"
-import { Suspense } from "react"
 import { UserProvider } from "./user/user-provider"
 import { requireUser } from "./user/user-session"
 

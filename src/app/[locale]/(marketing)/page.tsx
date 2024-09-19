@@ -9,10 +9,10 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
+import { Link } from "@/components/ui/link"
 import { auth } from "@/lib/auth"
 import { getI18n } from "@/locales/server"
 import { CheckCircle2 } from "lucide-react"
-import Link from "next/link"
 
 export default async function Component() {
   const session = await auth()

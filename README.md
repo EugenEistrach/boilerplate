@@ -134,4 +134,4 @@ Example features include:
 
 ## Deployment
 
-See [Deployment Guide](./docs/deployment.md) for detailed instructions.
+Run `pnpm run setup-deployment <dokku-host>` to setup github repo and automated deployments.

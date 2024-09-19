@@ -6,9 +6,9 @@ import {
   CardHeader,
   CardTitle
 } from "@/components/ui/card"
+import { Link } from "@/components/ui/link"
 import { getI18n } from "@/locales/server"
 import { Notebook, Settings } from "lucide-react"
-import Link from "next/link"
 
 export default async function AppPage() {
   const t = await getI18n()

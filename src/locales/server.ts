@@ -16,3 +16,8 @@ export function i18n<T extends (t: TClient) => z.ZodType>(schema: T) {
     return schema(t)
   }
 }
+
+export function url(path: string) {
+  const currentLocale = getCurrentLocale()
+  return `/${currentLocale}/${path}`
+}

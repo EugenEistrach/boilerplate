@@ -8,18 +8,13 @@ import util from "node:util"
 
 const execPromise = util.promisify(exec)
 
-const remoteHost = process.argv[2]
-if (!remoteHost) {
-  console.error("Please provide the remote host as an argument.")
-  console.error("Usage: ts-node setup-deployment.ts <remote_host>")
-  process.exit(1)
-}
+const config = await readConfig()
 
 async function runCommand(command: string, local = false): Promise<void> {
   try {
     console.log(`Running: ${command}`)
     const { stdout, stderr } = await execPromise(
-      local ? command : `ssh root@${remoteHost} '${command}'`
+      local ? command : `ssh root@${config.domain} '${command}'`
     )
     if (stdout) console.log(stdout)
     if (stderr) console.error(stderr)
@@ -87,8 +82,7 @@ async function generateAndSetupSSHKey(appName: string): Promise<void> {
 }
 
 async function setupDokkuApp(): Promise<void> {
-  const deploymentConfig = await readConfig()
-  const { appName, domain } = deploymentConfig
+  const { appName, domain } = config
 
   // Setup GitHub repository
   console.log("Setting up GitHub repository...")
@@ -107,7 +101,7 @@ async function setupDokkuApp(): Promise<void> {
   console.log("Setting up GitHub secret for Dokku remote URL...")
   try {
     await runCommand(
-      `gh secret set DOKKU_REMOTE_URL -b"ssh://dokku@${remoteHost}:22/${appName}"`,
+      `gh secret set DOKKU_REMOTE_URL -b"ssh://dokku@${domain}:22/${appName}"`,
       true
     )
     console.log("GitHub secret 'DOKKU_REMOTE_URL' set successfully.")
@@ -155,12 +149,13 @@ async function setupDokkuApp(): Promise<void> {
   // Set up Let's Encrypt
   await runCommand(`dokku letsencrypt:enable ${appName}`)
 
+  // Set port mapping
+  await runCommand(`dokku ports:set ${appName} https:443:3000`)
+  console.log("Set port mapping for HTTP and HTTPS")
+
   // Add remote to local git (assuming you're in the project directory)
   try {
-    await runCommand(
-      `git remote add dokku dokku@${remoteHost}:${appName}`,
-      true
-    )
+    await runCommand(`git remote add dokku dokku@${domain}:${appName}`, true)
     console.log("Added git remote: dokku")
   } catch (error) {
     console.log("Git remote 'dokku' already exists. Skipping...")

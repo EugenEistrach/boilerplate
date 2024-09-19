@@ -2,9 +2,10 @@ import { auth } from "@/lib/auth"
 import { createI18nMiddleware } from "next-international/middleware"
 
 import { NextResponse } from "next/server"
+import { url } from "./locales/server"
 
 const isProtectedRoute = (path: string) => {
-  return path.startsWith("/workspace")
+  return path.includes("/workspace")
 }
 
 const I18nMiddleware = createI18nMiddleware({
@@ -29,7 +30,7 @@ export default auth(req => {
 
     const redirectTo = req.nextUrl.pathname?.trim() ?? undefined
     return NextResponse.redirect(
-      new URL(`/sign-in?${new URLSearchParams({ redirectTo })}`, req.url)
+      new URL(url(`/sign-in?${new URLSearchParams({ redirectTo })}`), req.url)
     )
   }
   return NextResponse.next()
