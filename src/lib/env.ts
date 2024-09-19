@@ -18,7 +18,10 @@ export const env = createEnv({
     EMAIL_FROM: z.string().optional()
   },
   client: {
-    NEXT_PUBLIC_SENTRY_DSN: z.string().optional()
+    NEXT_PUBLIC_SENTRY_DSN: z.string().optional(),
+    NEXT_PUBLIC_GITHUB_SSO_ENABLED: z.boolean().optional(),
+    NEXT_PUBLIC_DISCORD_SSO_ENABLED: z.boolean().optional(),
+    NEXT_PUBLIC_MAGIC_LINK_ENABLED: z.boolean().optional()
   },
   runtimeEnv: {
     NODE_ENV: process.env.NODE_ENV,
@@ -34,6 +37,13 @@ export const env = createEnv({
     AUTH_DISCORD_SECRET: process.env.AUTH_DISCORD_SECRET,
     AUTH_URL: process.env.AUTH_URL,
     RESEND_API_KEY: process.env.RESEND_API_KEY,
-    EMAIL_FROM: process.env.EMAIL_FROM
+    EMAIL_FROM: process.env.EMAIL_FROM,
+    NEXT_PUBLIC_GITHUB_SSO_ENABLED: Boolean(
+      process.env.AUTH_GITHUB_ID && process.env.AUTH_GITHUB_SECRET
+    ),
+    NEXT_PUBLIC_DISCORD_SSO_ENABLED: Boolean(
+      process.env.AUTH_DISCORD_ID && process.env.AUTH_DISCORD_SECRET
+    ),
+    NEXT_PUBLIC_MAGIC_LINK_ENABLED: Boolean(process.env.RESEND_API_KEY)
   }
 })
