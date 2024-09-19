@@ -15,7 +15,7 @@ app.prepare().then(() => {
   const server = createServer((req, res) => {
     const parsedUrl = parse(req.url!, true)
     handle(req, res, parsedUrl)
-  }).listen(port)
+  }).listen(port, "0.0.0.0")
 
   console.log(
     `> Server listening at http://localhost:${port} as ${
