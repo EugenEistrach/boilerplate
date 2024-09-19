@@ -30,7 +30,7 @@ export default auth(req => {
 
     const redirectTo = req.nextUrl.pathname?.trim() ?? undefined
     return NextResponse.redirect(
-      new URL(url(`/sign-in?${new URLSearchParams({ redirectTo })}`), req.url)
+      new URL(`/sign-in?${new URLSearchParams({ redirectTo })}`, req.url)
     )
   }
   return NextResponse.next()
