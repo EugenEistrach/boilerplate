@@ -1,5 +1,7 @@
 #!/bin/sh -e
 
+env
+
 # Save the current directory
 current_dir=$(pwd)
 
