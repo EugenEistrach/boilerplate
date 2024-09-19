@@ -188,7 +188,7 @@ async function setupDokkuApp(): Promise<void> {
   console.log(
     "Once everything is setup you can push the code to github and it will automatically deploy to the server:"
   )
-  console.log("git push")
+  console.log("git push --set-upstream origin main")
 }
 
 setupDokkuApp().catch(error => {
