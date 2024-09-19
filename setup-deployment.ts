@@ -88,7 +88,7 @@ async function setupDokkuApp(): Promise<void> {
   console.log("Setting up GitHub repository...")
   try {
     await runCommand(
-      `gh repo create ${appName} --public --source=. --remote=upstream --confirm`,
+      `gh repo create ${appName} --public --source=. --remote=origin --confirm`,
       true
     )
     console.log(`GitHub repository '${appName}' created successfully.`)
